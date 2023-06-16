@@ -80,6 +80,17 @@ export function startPage(page: Config['pages'][0], index: number) {
   }, 5000)
 
   mainWindow.addBrowserView(view)
+
+  // get the current favicon
+  view.webContents.on('page-favicon-updated', (event, favicons) => {
+    const imageURL = favicons[0]
+
+    console.log('page-favicon-updated', imageURL)
+    mainWindow.webContents.send('onPageFaviconUpdated', {
+      index,
+      imageURL,
+    })
+  })
 }
 
 export function startPages() {
