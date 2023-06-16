@@ -4,6 +4,7 @@
  */
 module.exports = async function () {
   return {
+    extends: null,
     productName: 'Rebrowser',
     appId: 'com.nicolaslopezj.rebrowser',
     afterSign: 'electron-builder-notarize',
