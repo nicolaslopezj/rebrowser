@@ -26,3 +26,4 @@ yarn-error.log*
 build.sh
 cert.p12
 /dist
+notarization-error.log
