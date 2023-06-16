@@ -12,10 +12,10 @@ export interface Config {
 const store = new Store()
 
 export async function setConfig(config: any) {
-  store.set('config', config)
+  store.set('pages', config)
 }
 
 export function getConfig() {
-  const config = store.get('config', {pages: []}) as Config
+  const config = store.get('pages', {pages: []}) as Config
   return config
 }

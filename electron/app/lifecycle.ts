@@ -7,6 +7,7 @@ import {mainWindow} from '../main'
 export function restartApp() {
   console.log('restarting app...')
   app.relaunch()
+  app.exit()
 }
 
 /**

@@ -36,6 +36,7 @@ module.exports = async function () {
       ],
     },
     win: {
+      publisherName: 'Nicolas Lopez',
       publish: ['github'],
       icon: 'assets/icon.ico',
       target: [

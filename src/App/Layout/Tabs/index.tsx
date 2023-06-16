@@ -49,7 +49,7 @@ export default function Tabs() {
   ]
 
   return (
-    <div className="flex h-10 space-x-2 p-1 px-2">
+    <div className="flex h-10 space-x-2 border-b p-1 px-2">
       {tabs.map((tab, index) => {
         const active = location.pathname === tab.path
         return (

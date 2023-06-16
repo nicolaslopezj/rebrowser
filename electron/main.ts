@@ -4,6 +4,7 @@ import * as path from 'path'
 import isDev from 'electron-is-dev'
 import {initIpc} from './app/ipc'
 import {startPages} from './pages'
+import './app/autolaunch'
 
 export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
@@ -12,6 +13,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       preload: path.resolve(__dirname, 'preload.js'),
@@ -61,6 +63,7 @@ app.on('ready', () => {
   createWindow()
   setTimeout(startPages, 1000)
 
+  autoUpdater.checkForUpdatesAndNotify()
   setInterval(() => {
     autoUpdater.checkForUpdatesAndNotify()
   }, 1000 * 60 * 60 * 2) // 2 hours

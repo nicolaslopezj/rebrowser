@@ -1,6 +1,6 @@
 {
   "name": "rebrowser",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "private": true,
   "homepage": ".",
   "main": "./build/electron/main.js",
@@ -18,6 +18,7 @@
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "dot-object": "^2.1.4",
+    "easy-auto-launch": "^6.0.2",
     "electron-builder-notarize": "^1.5.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-is-dev": "^2.0.0",
@@ -37,7 +38,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:5149 && tsc -p electron -w\" \"wait-on http://127.0.0.1:5149 && tsc -p electron && electron .\"",
-    "release": "rm -rf ./dist && yarn build && tsc -p electron && electron-builder --config .electron-builder.config.js --win --mac",
+    "release": "rm -rf ./dist && yarn build && tsc -p electron && electron-builder --config .electron-builder.config.js --win",
     "start": "PORT=5149 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
