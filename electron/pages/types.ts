@@ -15,3 +15,21 @@ export interface RebrowserInstruction {
 export interface RebrowserRequestResponse {
   instructions: RebrowserInstruction[]
 }
+
+export interface RebrowserRule {
+  urlMatch: string
+  omit: boolean
+  filterJSONPaths?: string[]
+}
+
+export interface RebrowserRulesRequestResponse {
+  rules: RebrowserRule[]
+}
+
+export interface RebrowserEventData {
+  version: string
+  url: string
+  body: string
+  status: number
+  page: string
+}

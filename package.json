@@ -1,6 +1,6 @@
 {
   "name": "rebrowser",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "homepage": ".",
   "main": "./build/electron/main.js",
@@ -17,11 +17,13 @@
     "@types/react-dom": "^18.2.5",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
+    "dot-object": "^2.1.4",
     "electron-builder-notarize": "^1.5.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-is-dev": "^2.0.0",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-store": "^8.1.0",
+    "electron-updater": "^5.3.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-app-events": "^2.0.2",
@@ -35,7 +37,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:5149 && tsc -p electron -w\" \"wait-on http://127.0.0.1:5149 && tsc -p electron && electron .\"",
-    "release": "yarn build && tsc -p electron && electron-builder --config .electron-builder.config.js --win --mac",
+    "release": "rm -rf ./dist && yarn build && tsc -p electron && electron-builder --config .electron-builder.config.js --win --mac",
     "start": "PORT=5149 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@types/dot-object": "^2.1.2",
     "@types/lodash": "^4.14.195",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",

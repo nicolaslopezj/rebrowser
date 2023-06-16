@@ -27,6 +27,7 @@ export async function pollPendingInstructions(
   view: BrowserView,
   page: Config['pages'][0]
 ) {
+  console.log(`Polling pending instructions for page ${page.name}`)
   const result = await axios<RebrowserRequestResponse>({
     url: page.endpointURL,
     method: 'get',

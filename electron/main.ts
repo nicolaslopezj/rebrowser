@@ -1,6 +1,7 @@
 import {app, BrowserWindow, powerSaveBlocker} from 'electron'
+import {autoUpdater} from 'electron-updater'
 import * as path from 'path'
-import * as isDev from 'electron-is-dev'
+import isDev from 'electron-is-dev'
 import {initIpc} from './app/ipc'
 import {startPages} from './pages'
 
@@ -59,6 +60,10 @@ app.on('ready', () => {
   initIpc()
   createWindow()
   setTimeout(startPages, 1000)
+
+  setInterval(() => {
+    autoUpdater.checkForUpdatesAndNotify()
+  }, 1000 * 60 * 60 * 2) // 2 hours
 })
 
 app.on('window-all-closed', () => {

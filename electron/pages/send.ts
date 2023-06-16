@@ -1,9 +1,10 @@
 import axios from 'axios'
 import {Config} from '../app/config'
-import {RebrowserRequestResponse} from './types'
-import {BrowserView} from 'electron'
+import {RebrowserEventData, RebrowserRequestResponse} from './types'
+import {BrowserView, app} from 'electron'
 import {addHistoryEntry} from './history'
 import {executeInstructions} from './executeActions'
+import {filterData} from './getRules'
 
 export async function onRequestCompleted(
   index: number,
@@ -14,12 +15,15 @@ export async function onRequestCompleted(
   body: string
 ) {
   try {
-    const data = {
+    const data: RebrowserEventData = await filterData(page, index, {
+      version: app.getVersion(),
       url: response.url,
       body: body,
       status: response.status,
       page: page.name,
-    }
+    })
+
+    if (!data) return // data was filtered out
 
     addHistoryEntry(index, {
       ...data,

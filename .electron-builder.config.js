@@ -12,6 +12,7 @@ module.exports = async function () {
       output: 'dist',
       buildResources: 'assets',
     },
+    files: ['build/**/*'],
     publish: {
       provider: 'github',
       publishAutoUpdate: true,
