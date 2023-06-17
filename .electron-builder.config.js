@@ -8,7 +8,6 @@ module.exports = async function () {
     productName: 'Rebrowser',
     appId: 'com.nicolaslopezj.rebrowser',
     afterSign: 'electron-builder-notarize',
-    asar: false,
     directories: {
       output: 'dist',
       buildResources: 'assets',
