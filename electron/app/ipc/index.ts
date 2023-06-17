@@ -1,5 +1,9 @@
 import {ipcMain} from 'electron'
-import {resetAllNavigationStorageAndCache, restartApp} from '../lifecycle'
+import {
+  getAppVersion,
+  resetAllNavigationStorageAndCache,
+  restartApp,
+} from '../lifecycle'
 import {getConfig, setConfig} from '../config'
 import {hidePage, showPage} from '../../pages'
 
@@ -10,6 +14,7 @@ export const handles = {
   showPage,
   hidePage,
   resetAllNavigationStorageAndCache,
+  getAppVersion,
 }
 
 export function initIpc() {

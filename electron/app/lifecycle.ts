@@ -1,6 +1,10 @@
 import {app} from 'electron'
 import {mainWindow} from '../main'
 
+export function getAppVersion() {
+  return app.getVersion()
+}
+
 /**
  * restarts the electron app
  */

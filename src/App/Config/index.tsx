@@ -5,13 +5,14 @@ import PasswordInput from '../../components/ui/fields/Password'
 import {useConfig} from './types'
 import Button from '../../components/ui/buttons/Button'
 import {electronAPI} from '../../api'
+import AppVersion from './Version'
 
 export default function ConfigIndex() {
   const {config, setConfig} = useConfig()
   if (!config) return null
 
   return (
-    <div className="flex-1 bg-gray-50 p-5">
+    <div className="flex-1 space-y-5 bg-gray-50 p-5">
       <Form
         state={config}
         onChange={setConfig}
@@ -20,15 +21,15 @@ export default function ConfigIndex() {
           <div className="grid grid-cols-2 gap-5">
             <Field
               fieldName="name"
-              placeholder="Tufuber"
+              placeholder="Example"
               description="Name of the tab"
               label="Name"
               type={TextInput}
             />
             <Field
               fieldName="startURL"
-              placeholder="https://tufuber.com"
-              description="URL of the webpage"
+              placeholder="https://example.com"
+              description="URL of the starting point"
               label="URL"
               type={TextInput}
             />
@@ -59,6 +60,7 @@ export default function ConfigIndex() {
           Reset caché
         </Button>
       </div>
+      <AppVersion />
     </div>
   )
 }

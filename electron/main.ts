@@ -5,6 +5,7 @@ import isDev from 'electron-is-dev'
 import {initIpc} from './app/ipc'
 import {startPages} from './pages'
 import './app/autolaunch'
+import './app/singleInstance'
 
 export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
