@@ -29,7 +29,7 @@ export default function ConfigIndex() {
             <Field
               fieldName="startURL"
               placeholder="https://example.com"
-              description="URL of the starting point"
+              description="URL of the website"
               label="URL"
               type={TextInput}
             />
@@ -43,7 +43,7 @@ export default function ConfigIndex() {
             <Field
               fieldName="endpointAuthenticationToken"
               placeholder="1234567890"
-              description="Authentication token for the api"
+              description="Authentication token for the endpoint"
               label="Authentication Token"
               type={PasswordInput}
             />

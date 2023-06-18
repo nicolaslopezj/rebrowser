@@ -6,6 +6,7 @@ import {
 } from './types'
 import {Config} from '../app/config'
 import dot from 'dot-object'
+import crypto from 'crypto'
 
 const cache = new Map<number, RebrowserRule[]>()
 
@@ -41,6 +42,13 @@ const getJSON = (str: string) => {
   } catch (error) {}
 }
 
+function cleanValue(value: any) {
+  const string = JSON.stringify(value)
+  const hash = crypto.createHash('sha256')
+  hash.update(string)
+  return `filtered:${hash.digest('hex')}`
+}
+
 export async function filterData(
   page: Config['pages'][0],
   index: number,
@@ -63,8 +71,10 @@ export async function filterData(
           const value = dot.pick(filterParam, bodyJSON)
           if (value) {
             // set the value to ***
+            const value = dot.pick(filterParam, bodyJSON)
+            const cleanedValue = cleanValue(value)
             dot.delete(filterParam, bodyJSON)
-            dot.str(filterParam, '***', bodyJSON)
+            dot.str(filterParam, cleanedValue, bodyJSON)
           }
         } catch (error) {
           console.log(

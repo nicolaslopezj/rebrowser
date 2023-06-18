@@ -37,6 +37,7 @@ module.exports = async function () {
     },
     win: {
       publisherName: 'Nicolas Lopez',
+      verifyUpdateCodeSignature: false,
       publish: ['github'],
       icon: 'assets/icon.ico',
       target: [
@@ -48,7 +49,6 @@ module.exports = async function () {
     },
     nsis: {
       oneClick: true,
-      perMachine: true,
     },
     dmg: {
       icon: 'assets/icon.icns',
