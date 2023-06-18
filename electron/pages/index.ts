@@ -13,15 +13,18 @@ export function startPage(page: Config['pages'][0], index: number) {
     webPreferences: {
       autoplayPolicy: 'no-user-gesture-required',
       nodeIntegration: false,
+      contextIsolation: true,
       offscreen: false,
     },
   })
   view.webContents.setBackgroundThrottling(false)
 
-  // set user agent
-  const chromeWindowsUserAgent =
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-  view.webContents.setUserAgent(chromeWindowsUserAgent)
+  let userAgent = view.webContents.getUserAgent()
+  userAgent = userAgent
+    .replace(/Electron\/[0-9\.]+\s/, '')
+    .replace(/rebrowser\/[0-9\.]+\s/, '')
+  view.webContents.setUserAgent(userAgent)
+
   setBounds(view)
 
   try {
