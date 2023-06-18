@@ -7,6 +7,7 @@ import {
 import {Config} from '../app/config'
 import dot from 'dot-object'
 import crypto from 'crypto'
+import {convertToObject} from 'typescript'
 
 const cache = new Map<number, RebrowserRule[]>()
 
@@ -62,6 +63,7 @@ export async function filterData(
     const regex = new RegExp(rule.urlMatch)
     if (regex.test(data.url)) {
       if (rule.omit) {
+        console.log(`Omit url ${data.url}`)
         return null
       }
 

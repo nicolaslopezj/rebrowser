@@ -30,7 +30,7 @@ export async function onRequestCompleted(
       headers: requestHeaders,
     })
 
-    console.log(`Will send request to endpoint ${page.endpointURL}`)
+    console.log(`Will send request to endpoint ${data.url}`)
     const result = await axios<RebrowserRequestResponse>({
       url: page.endpointURL,
       method: 'post',
