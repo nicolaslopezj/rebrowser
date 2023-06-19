@@ -3,6 +3,7 @@ import {RebrowserInstruction, RebrowserRequestResponse} from '../types'
 import {makeRequest} from './makeRequest'
 import axios from 'axios'
 import {Config} from '../../app/config'
+import {navigate} from './navigate'
 
 export async function executeInstructions(
   index: number,
@@ -14,6 +15,9 @@ export async function executeInstructions(
       for (const action of instruction.actions) {
         if (action.type === 'makeRequest') {
           await makeRequest(index, view, action)
+        }
+        if (action.type === 'navigate') {
+          await navigate(index, view, action)
         }
       }
     } catch (error) {
