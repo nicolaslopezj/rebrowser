@@ -11,6 +11,8 @@ export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
 
 function createWindow() {
+  app.commandLine.appendSwitch('ignore-certificate-errors')
+
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
@@ -18,6 +20,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       preload: path.resolve(__dirname, 'preload.js'),
+      webSecurity: false,
+      allowRunningInsecureContent: true,
     },
   })
 

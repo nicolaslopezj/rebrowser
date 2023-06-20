@@ -15,6 +15,9 @@ export function startPage(page: Config['pages'][0], index: number) {
       nodeIntegration: false,
       contextIsolation: true,
       offscreen: false,
+
+      webSecurity: false,
+      allowRunningInsecureContent: true,
     },
   })
   view.webContents.setBackgroundThrottling(false)
