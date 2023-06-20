@@ -15,7 +15,6 @@ export function startPage(page: Config['pages'][0], index: number) {
       nodeIntegration: false,
       contextIsolation: true,
       offscreen: false,
-
       webSecurity: false,
       allowRunningInsecureContent: true,
     },
@@ -96,6 +95,10 @@ export function startPage(page: Config['pages'][0], index: number) {
       index,
       imageURL,
     })
+  })
+
+  view.webContents.mainFrame.framesInSubtree.forEach(frame => {
+    frame.executeJavaScript('window.print=()=>{}')
   })
 }
 

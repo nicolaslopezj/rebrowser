@@ -12,6 +12,14 @@ let powerSaveBlockerId = null
 
 function createWindow() {
   app.commandLine.appendSwitch('ignore-certificate-errors')
+  app.on(
+    'certificate-error',
+    (event, webContents, url, error, certificate, callback) => {
+      // Verification logic.
+      event.preventDefault()
+      callback(true)
+    }
+  )
 
   mainWindow = new BrowserWindow({
     width: 1000,
