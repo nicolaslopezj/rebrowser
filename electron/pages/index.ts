@@ -62,6 +62,8 @@ export function startPage(page: Config['pages'][0], index: number) {
             headersMap.get(params.requestId),
             '{}'
           )
+
+          return
         }
 
         view.webContents.debugger
@@ -82,6 +84,14 @@ export function startPage(page: Config['pages'][0], index: number) {
           })
           .catch(function (err) {
             console.log(params.response?.url, params.type, err)
+            onRequestCompleted(
+              index,
+              view,
+              page,
+              params.response,
+              headersMap.get(params.requestId),
+              '{}'
+            )
           })
       }, 500)
     }
