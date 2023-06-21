@@ -52,6 +52,18 @@ export function startPage(page: Config['pages'][0], index: number) {
       if (!['Fetch', 'XHR'].includes(params.type)) return
 
       setTimeout(() => {
+        // if response body is 0, then dont get response body
+        if (params.response.headers['content-length'] === '0') {
+          onRequestCompleted(
+            index,
+            view,
+            page,
+            params.response,
+            headersMap.get(params.requestId),
+            '{}'
+          )
+        }
+
         view.webContents.debugger
           .sendCommand('Network.getResponseBody', {requestId: params.requestId})
           .then(function (response) {
