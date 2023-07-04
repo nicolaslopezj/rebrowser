@@ -4,6 +4,8 @@ import {makeRequest} from './makeRequest'
 import axios from 'axios'
 import {Config} from '../../app/config'
 import {navigate} from './navigate'
+import {reload} from './reload'
+import {setLocalStorageItem} from './setLocalStorageItem'
 
 export async function executeInstructions(
   index: number,
@@ -18,6 +20,15 @@ export async function executeInstructions(
         }
         if (action.type === 'navigate') {
           await navigate(index, view, action)
+        }
+        if (action.type === 'reload') {
+          await reload(index, view, action)
+        }
+        if (action.type === 'wait') {
+          await new Promise(resolve => setTimeout(resolve, action.duration))
+        }
+        if (action.type === 'setLocalStorageItem') {
+          await setLocalStorageItem(index, view, action)
         }
       }
     } catch (error) {
