@@ -7,6 +7,7 @@ const invokes = [
   'showPage',
   'hidePage',
   'getAppVersion',
+  'checkForUpdates',
   'resetAllNavigationStorageAndCache',
 ]
 

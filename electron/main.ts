@@ -79,7 +79,7 @@ app.on('ready', () => {
   autoUpdater.checkForUpdatesAndNotify()
   setInterval(() => {
     autoUpdater.checkForUpdatesAndNotify()
-  }, 1000 * 60 * 60 * 2) // 2 hours
+  }, 1000 * 60 * 60 * 1) // 1 hours
 })
 
 app.on('window-all-closed', () => {

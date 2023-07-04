@@ -9,6 +9,7 @@ export interface ElectronAPI {
   hidePage: (index: number) => Promise<void>
   resetAllNavigationStorageAndCache: () => Promise<void>
   getAppVersion: () => Promise<string>
+  checkForUpdates: () => Promise<any>
 
   onPageFaviconUpdated: (
     callback: (event: any, data: {index: number; imageURL: string}) => void

@@ -1,5 +1,6 @@
 import {ipcMain} from 'electron'
 import {
+  checkForUpdates,
   getAppVersion,
   resetAllNavigationStorageAndCache,
   restartApp,
@@ -15,6 +16,7 @@ export const handles = {
   hidePage,
   resetAllNavigationStorageAndCache,
   getAppVersion,
+  checkForUpdates,
 }
 
 export function initIpc() {

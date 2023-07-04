@@ -7,6 +7,7 @@ import {pollPendingInstructions} from './executeActions'
 let views: BrowserView[] = []
 
 const tabsHeight = 40 + 28
+let currentTab = 0
 
 export function startPage(page: Config['pages'][0], index: number) {
   const view = new BrowserView({
@@ -122,6 +123,11 @@ export function startPage(page: Config['pages'][0], index: number) {
   view.webContents.mainFrame.framesInSubtree.forEach(frame => {
     frame.executeJavaScript('window.print=()=>{}')
   })
+
+  // on main window resize, resize the browser view
+  mainWindow.on('resize', () => {
+    setBounds(views[currentTab])
+  })
 }
 
 export function startPages() {
@@ -143,6 +149,7 @@ export function showPage(index: number) {
     return
   }
   setBounds(view)
+  currentTab = index
 }
 
 export function hidePage(index: number) {
