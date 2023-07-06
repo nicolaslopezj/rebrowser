@@ -18,6 +18,7 @@ export function startPage(page: Config['pages'][0], index: number) {
       offscreen: false,
       webSecurity: false,
       allowRunningInsecureContent: true,
+      partition: `persist:rebrowser-${index}`,
     },
   })
   view.webContents.setBackgroundThrottling(false)
