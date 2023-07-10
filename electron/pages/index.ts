@@ -4,7 +4,7 @@ import {mainWindow} from '../main'
 import {onRequestCompleted} from './send'
 import {pollPendingInstructions} from './executeActions'
 
-let views: BrowserView[] = []
+export let views: BrowserView[] = []
 
 const tabsHeight = 40 + 28
 let currentTab = 0
@@ -29,7 +29,7 @@ export function startPage(page: Config['pages'][0], index: number) {
     .replace(/rebrowser\/[0-9\.]+\s/, '')
   view.webContents.setUserAgent(userAgent)
 
-  setBounds(view)
+  view.setBounds({x: 0, y: 0, width: 0, height: 0}) // hice the view
 
   try {
     view.webContents.debugger.attach('1.3')

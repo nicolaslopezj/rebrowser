@@ -1,6 +1,7 @@
 import {app} from 'electron'
 import {mainWindow} from '../main'
 import {autoUpdater} from 'electron-updater'
+import {views} from '../pages'
 
 export function getAppVersion() {
   return app.getVersion()
@@ -20,7 +21,9 @@ export function restartApp() {
  */
 export function resetAllNavigationStorageAndCache() {
   console.log('resetting all navigation storage and cache...')
-  mainWindow.webContents.session.clearStorageData()
+  views.forEach(view => {
+    view.webContents.session.clearStorageData()
+  })
 }
 
 export async function checkForUpdates() {
