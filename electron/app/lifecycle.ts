@@ -1,5 +1,4 @@
 import {app} from 'electron'
-import {mainWindow} from '../main'
 import {autoUpdater} from 'electron-updater'
 import {views} from '../pages'
 
