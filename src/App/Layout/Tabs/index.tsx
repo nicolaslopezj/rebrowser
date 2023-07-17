@@ -1,13 +1,19 @@
 import classNames from 'classnames'
 import {Link, useLocation} from 'react-router-dom'
 import {useConfig} from '../../Config/types'
-import {CogIcon, GlobeAmericasIcon} from '@heroicons/react/24/outline'
+import {
+  CogIcon,
+  GlobeAmericasIcon,
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+} from '@heroicons/react/24/outline'
 import {Fragment, useState} from 'react'
 import {useOnEvent} from 'react-app-events'
+import {electronAPI} from '../../../api'
 
 export default function Tabs() {
   const location = useLocation()
-  const {config} = useConfig()
+  const {config, setConfig} = useConfig()
   const [favIcons, setFavIcons] = useState<string[]>([])
 
   useOnEvent(
@@ -22,10 +28,10 @@ export default function Tabs() {
     }
   )
 
-  if (!config) return null
+  // if (!config) return null
 
   const tabs = [
-    ...config.pages.map((page, index) => ({
+    ...(config?.pages?.map((page, index) => ({
       name: (
         <div className="flex items-center space-x-2">
           {favIcons[index] ? (
@@ -37,7 +43,25 @@ export default function Tabs() {
         </div>
       ),
       path: `/page/${index}`,
-    })),
+      onClick: null,
+    })) || []),
+    {
+      name: (
+        <div>
+          {config?.muteAudio ? (
+            <SpeakerXMarkIcon className="w-4" />
+          ) : (
+            <SpeakerWaveIcon className="w-4" />
+          )}
+        </div>
+      ),
+      path: null,
+      onClick: () => {
+        const muteAudio = !config?.muteAudio
+        setConfig({...config, muteAudio})
+        electronAPI.setAudioMuted(muteAudio)
+      },
+    },
     {
       name: (
         <div>
@@ -45,6 +69,7 @@ export default function Tabs() {
         </div>
       ),
       path: '/config',
+      onClick: null,
     },
   ]
 
@@ -54,18 +79,32 @@ export default function Tabs() {
         const active = location.pathname === tab.path
         return (
           <Fragment key={index}>
-            {index === tabs.length - 1 && <div className="flex-1"></div>}
-            <Link
-              to={tab.path}
-              className={classNames(
-                'flex items-center justify-center rounded p-2 text-sm text-gray-600',
-                {
-                  'bg-gray-200': active,
-                  'bg-gray-100 hover:bg-gray-200': !active,
-                }
-              )}>
-              {tab.name}
-            </Link>
+            {index === tabs.length - 2 && <div className="flex-1"></div>}
+            {tab.path ? (
+              <Link
+                to={tab.path}
+                className={classNames(
+                  'flex items-center justify-center rounded p-2 text-sm text-gray-600',
+                  {
+                    'bg-gray-200': active,
+                    'bg-gray-100 hover:bg-gray-200': !active,
+                  }
+                )}>
+                {tab.name}
+              </Link>
+            ) : (
+              <button
+                className={classNames(
+                  'flex items-center justify-center rounded p-2 text-sm text-gray-600',
+                  {
+                    'bg-gray-200': active,
+                    'bg-gray-100 hover:bg-gray-200': !active,
+                  }
+                )}
+                onClick={tab.onClick}>
+                {tab.name}
+              </button>
+            )}
           </Fragment>
         )
       })}

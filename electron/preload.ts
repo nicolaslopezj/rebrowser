@@ -9,6 +9,8 @@ const invokes = [
   'getAppVersion',
   'checkForUpdates',
   'resetAllNavigationStorageAndCache',
+  'testAutoConfigString',
+  'setAudioMuted',
 ]
 
 const events = ['onPageFaviconUpdated']

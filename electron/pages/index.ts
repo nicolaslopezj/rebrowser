@@ -3,6 +3,7 @@ import {Config, getConfig} from '../app/config'
 import {mainWindow} from '../main'
 import {onRequestCompleted} from './send'
 import {pollPendingInstructions} from './executeActions'
+import {getPagesFormAutoConfig} from './getPagesFromAutoConfig'
 
 export let views: BrowserView[] = []
 
@@ -18,10 +19,15 @@ export function startPage(page: Config['pages'][0], index: number) {
       offscreen: false,
       webSecurity: false,
       allowRunningInsecureContent: true,
-      partition: `persist:rebrowser-${index}`,
+      partition: `persist:rebrowser-${page.partition ?? index}`,
     },
   })
   view.webContents.setBackgroundThrottling(false)
+
+  // mute audio
+  if (getConfig().muteAudio) {
+    view.webContents.setAudioMuted(true)
+  }
 
   let userAgent = view.webContents.getUserAgent()
   userAgent = userAgent
@@ -131,11 +137,20 @@ export function startPage(page: Config['pages'][0], index: number) {
   })
 }
 
-export function startPages() {
+export async function startPages() {
   const config = getConfig()
+  let pages = config.pages
 
-  for (let i = 0; i < config.pages.length; i++) {
-    startPage(config.pages[i], i)
+  if (config?.autoConfigString) {
+    pages = await getPagesFormAutoConfig()
+  }
+
+  if (!pages?.length) {
+    return
+  }
+
+  for (let i = 0; i < pages?.length; i++) {
+    startPage(pages[i], i)
   }
 }
 
@@ -159,4 +174,10 @@ export function hidePage(index: number) {
     return
   }
   view.setBounds({x: 0, y: 0, width: 0, height: 0})
+}
+
+export function setAudioMuted(muted: boolean) {
+  views.forEach(view => {
+    view.webContents.setAudioMuted(muted)
+  })
 }

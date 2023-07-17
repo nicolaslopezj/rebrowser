@@ -5,6 +5,7 @@ import {showNotification} from '../../../helpers/sendNotification'
 
 export default function AppVersion() {
   const [version, setVersion] = useState<string>()
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     electronAPI.getAppVersion().then(setVersion)
   }, [])
@@ -18,6 +19,7 @@ export default function AppVersion() {
         className=" text-xs"
         onClick={async () => {
           try {
+            setLoading(true)
             const result = await electronAPI.checkForUpdates()
             console.log(result)
             if (result?.updateInfo.version === version) {
@@ -31,14 +33,16 @@ export default function AppVersion() {
                 body: 'Downloading update...',
               })
             }
+            setLoading(false)
           } catch (error) {
+            setLoading(false)
             showNotification({
               title: 'Error',
               body: error.message,
             })
           }
         }}>
-        Check for updates
+        Check for updates{loading ? '...' : ''}
       </TextButton>
     </div>
   )

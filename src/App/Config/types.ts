@@ -1,7 +1,10 @@
 import {useEffect, useState} from 'react'
 import {electronAPI} from '../../api'
+import {isEqual} from 'lodash'
 
 export interface Config {
+  autoConfigString?: string
+  muteAudio?: boolean
   pages: {
     name: string
     startURL: string

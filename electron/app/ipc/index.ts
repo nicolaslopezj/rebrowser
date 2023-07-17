@@ -5,18 +5,25 @@ import {
   resetAllNavigationStorageAndCache,
   restartApp,
 } from '../lifecycle'
-import {getConfig, setConfig} from '../config'
-import {hidePage, showPage} from '../../pages'
+import {
+  getConfig,
+  getConfigWithAutoConfig,
+  setConfig,
+  testAutoConfigString,
+} from '../config'
+import {hidePage, setAudioMuted, showPage} from '../../pages'
 
 export const handles = {
   restartApp,
-  getConfig,
+  getConfig: getConfigWithAutoConfig,
   setConfig,
   showPage,
   hidePage,
   resetAllNavigationStorageAndCache,
   getAppVersion,
   checkForUpdates,
+  testAutoConfigString,
+  setAudioMuted,
 }
 
 export function initIpc() {
