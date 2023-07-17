@@ -1,3 +1,4 @@
+import './app/handleErrors'
 import {app, BrowserWindow, powerSaveBlocker} from 'electron'
 import {autoUpdater} from 'electron-updater'
 import * as path from 'path'
