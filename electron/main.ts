@@ -7,6 +7,7 @@ import {initIpc} from './app/ipc'
 import {startPages} from './pages'
 import './app/autolaunch'
 import './app/singleInstance'
+import {setupOnClose} from './app/onClose'
 
 export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
@@ -76,6 +77,7 @@ app.on('ready', () => {
   initIpc()
   createWindow()
   setTimeout(startPages, 1000)
+  setupOnClose(mainWindow)
 
   autoUpdater.checkForUpdatesAndNotify()
   setInterval(() => {
