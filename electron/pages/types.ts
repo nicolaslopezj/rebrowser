@@ -33,6 +33,8 @@ export interface RebrowserEventData {
   version: string
   url: string
   body: string
+  requestBody?: string
+  requestMethod?: string
   status: number
   page: string
 }

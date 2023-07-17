@@ -46,14 +46,29 @@ export function startPage(page: Config['pages'][0], index: number) {
     console.log('Debugger detached due to: ', reason)
   })
 
-  const headersMap = new Map<string, string>()
+  const requestsMap = new Map<
+    string,
+    {
+      headers: any
+      requestBody?: string
+      requestMethod?: string
+    }
+  >()
 
   view.webContents.debugger.on('message', (event, method, params) => {
     if (method === 'Network.requestWillBeSent') {
       if (!['Fetch', 'XHR'].includes(params.type)) return
 
       const headers = params.request.headers
-      headersMap.set(params.requestId, headers)
+
+      const requestMethod = params.request.method
+      const requestBody = params.request.postData
+
+      requestsMap.set(params.requestId, {
+        headers,
+        requestBody,
+        requestMethod,
+      })
     }
 
     if (method === 'Network.responseReceived') {
@@ -67,8 +82,10 @@ export function startPage(page: Config['pages'][0], index: number) {
             view,
             page,
             params.response,
-            headersMap.get(params.requestId),
-            '{}'
+            requestsMap.get(params.requestId)?.headers,
+            '{}',
+            requestsMap.get(params.requestId)?.requestBody,
+            requestsMap.get(params.requestId)?.requestMethod
           )
 
           return
@@ -86,8 +103,10 @@ export function startPage(page: Config['pages'][0], index: number) {
               view,
               page,
               params.response,
-              headersMap.get(params.requestId),
-              body
+              requestsMap.get(params.requestId)?.headers,
+              body,
+              requestsMap.get(params.requestId)?.requestBody,
+              requestsMap.get(params.requestId)?.requestMethod
             )
           })
           .catch(function (err) {
@@ -97,8 +116,10 @@ export function startPage(page: Config['pages'][0], index: number) {
               view,
               page,
               params.response,
-              headersMap.get(params.requestId),
-              '{}'
+              requestsMap.get(params.requestId)?.headers,
+              '{}',
+              requestsMap.get(params.requestId)?.requestBody,
+              requestsMap.get(params.requestId)?.requestMethod
             )
           })
       }, 500)

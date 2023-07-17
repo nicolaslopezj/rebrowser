@@ -12,13 +12,17 @@ export async function onRequestCompleted(
   page: Config['pages'][0],
   response: any,
   requestHeaders: any,
-  body: string
+  body: string,
+  requestBody?: string,
+  requestMethod?: string
 ) {
   try {
     const data: RebrowserEventData = await filterData(page, index, {
       version: app.getVersion(),
       url: response.url,
       body: body,
+      requestBody,
+      requestMethod,
       status: response.status,
       page: page.name,
     })
