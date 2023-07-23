@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react'
 import {electronAPI} from '../../api'
-import {isEqual} from 'lodash'
 
 export interface Config {
   autoConfigString?: string
@@ -17,10 +16,23 @@ export function useConfig() {
   const [config, setConfigState] = useState<Config>()
 
   useEffect(() => {
-    electronAPI.getConfig().then(config => {
-      if (!config?.pages) return
-      setConfigState(config)
-    })
+    electronAPI
+      .getConfig()
+      .then(config => {
+        if (!config?.pages) {
+          setConfigState({
+            pages: [],
+          })
+        } else {
+          setConfigState(config)
+        }
+      })
+      .catch(error => {
+        console.error('Error getting config', error)
+        setConfigState({
+          pages: [],
+        })
+      })
   }, [])
 
   const setConfig = (config: Config) => {

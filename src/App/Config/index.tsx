@@ -9,11 +9,19 @@ import AppVersion from './Version'
 import {useState} from 'react'
 import TextButton from '../../components/ui/buttons/TextButton'
 import {ButtonClickResponseAction} from '../../components/ui/buttons/Button/responseAction'
+import SpinnerLoading from '../../components/ui/loadings/Spinner'
 
 export default function ConfigIndex() {
   const {config, setConfig} = useConfig()
   const [showDetails, setShowDetails] = useState(false)
-  if (!config) return null
+  console.log(config)
+  if (!config) {
+    return (
+      <div className="flex items-center justify-center p-5">
+        <SpinnerLoading />
+      </div>
+    )
+  }
 
   return (
     <div className="flex-1 space-y-10 bg-gray-50 p-5">
