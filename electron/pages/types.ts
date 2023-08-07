@@ -1,5 +1,11 @@
 export interface RebrowserAction {
-  type: 'navigate' | 'makeRequest' | 'wait' | 'reload' | 'setLocalStorageItem'
+  type:
+    | 'navigate'
+    | 'makeRequest'
+    | 'wait'
+    | 'reload'
+    | 'setLocalStorageItem'
+    | 'reset'
   requestMethod?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   requestBody?: string
   requestHeaders?: any

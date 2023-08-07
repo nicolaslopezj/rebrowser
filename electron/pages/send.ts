@@ -51,7 +51,7 @@ export async function onRequestCompleted(
     )
 
     if (result.data.instructions) {
-      await executeInstructions(index, view, result.data.instructions)
+      await executeInstructions(index, view, result.data.instructions, page)
     }
   } catch (error) {
     console.log(

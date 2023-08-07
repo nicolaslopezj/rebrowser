@@ -5,12 +5,14 @@ import axios from 'axios'
 import {Config} from '../../app/config'
 import {navigate} from './navigate'
 import {reload} from './reload'
+import {reset} from './reset'
 import {setLocalStorageItem} from './setLocalStorageItem'
 
 export async function executeInstructions(
   index: number,
   view: BrowserView,
-  instructions: RebrowserInstruction[]
+  instructions: RebrowserInstruction[],
+  page: Config['pages'][0]
 ) {
   for (const instruction of instructions) {
     try {
@@ -23,6 +25,9 @@ export async function executeInstructions(
         }
         if (action.type === 'reload') {
           await reload(index, view, action)
+        }
+        if (action.type === 'reset') {
+          await reset(index, view, action, page)
         }
         if (action.type === 'wait') {
           await new Promise(resolve => setTimeout(resolve, action.duration))
@@ -51,6 +56,6 @@ export async function pollPendingInstructions(
     },
   })
   if (result.data.instructions) {
-    await executeInstructions(index, view, result.data.instructions)
+    await executeInstructions(index, view, result.data.instructions, page)
   }
 }
