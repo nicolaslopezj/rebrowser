@@ -35,7 +35,7 @@ export function startPage(page: Config['pages'][0], index: number) {
     .replace(/rebrowser\/[0-9\.]+\s/, '')
   view.webContents.setUserAgent(userAgent)
 
-  view.setBounds({x: 0, y: 0, width: 0, height: 0}) // hice the view
+  hidePage(index)
 
   try {
     view.webContents.debugger.attach('1.3')

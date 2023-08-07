@@ -14,7 +14,6 @@ import SpinnerLoading from '../../components/ui/loadings/Spinner'
 export default function ConfigIndex() {
   const {config, setConfig} = useConfig()
   const [showDetails, setShowDetails] = useState(false)
-  console.log(config)
   if (!config) {
     return (
       <div className="flex items-center justify-center p-5">

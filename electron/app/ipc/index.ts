@@ -6,7 +6,6 @@ import {
   restartApp,
 } from '../lifecycle'
 import {
-  getConfig,
   getConfigWithAutoConfig,
   setConfig,
   testAutoConfigString,
