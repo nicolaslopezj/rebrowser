@@ -1,20 +1,25 @@
+/* eslint-disable react/style-prop-object */
 import classNames from 'classnames'
 import {Link, useLocation} from 'react-router-dom'
 import {useConfig} from '../../Config/types'
 import {
+  ArrowPathIcon,
   CogIcon,
   GlobeAmericasIcon,
   HomeIcon,
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
+  StopCircleIcon,
 } from '@heroicons/react/24/outline'
 import {electronAPI} from '../../../api'
-import {usePagesFavIcons} from '../FaviconsContext'
+import {usePagesFavIcons, usePagesLoadings} from '../FaviconsContext'
+import TextButton from '../../../components/ui/buttons/TextButton'
 
 export default function Tabs() {
   const location = useLocation()
   const {config, setConfig} = useConfig()
   const favIcons = usePagesFavIcons()
+  const loadings = usePagesLoadings()
 
   const tabs =
     config?.pages?.map((page, index) => ({
@@ -52,20 +57,46 @@ export default function Tabs() {
       <div className="flex flex-1 space-x-2 overflow-auto">
         {tabs.map((tab, index) => {
           const active = isPathActive(tab.path)
+          const loading = loadings[index]
           return (
-            <Link
+            <div
               key={index}
-              to={tab.path}
               className={classNames(
-                'flex items-center justify-start space-x-2 rounded p-2 text-sm text-gray-600',
+                'group flex h-full items-center justify-start rounded-lg',
                 {
                   'bg-gray-200': active,
-                  'bg-gray-100 hover:bg-gray-200': !active,
+                  'bg-gray-100': !active,
                 }
               )}>
-              <div className="w-5">{tab.icon}</div>
-              <div className="flex-1 whitespace-nowrap">{tab.name}</div>
-            </Link>
+              {loading ? (
+                <div className="flex w-8 items-center justify-center p-2">
+                  <TextButton
+                    onClick={() => electronAPI.resetPage(index)}
+                    style="light"
+                    className="flex w-5 animate-spin items-center justify-center">
+                    <ArrowPathIcon className="w-5" />
+                  </TextButton>
+                </div>
+              ) : (
+                <div className="flex w-8 items-center justify-center p-2">
+                  <div className="w-5 group-hover:hidden">{tab.icon}</div>
+                  <TextButton
+                    onClick={() => electronAPI.resetPage(index)}
+                    style="light"
+                    className="hidden w-5 items-center justify-center group-hover:flex">
+                    <ArrowPathIcon className="w-5" />
+                  </TextButton>
+                </div>
+              )}
+              <Link
+                to={tab.path}
+                className={classNames('rounded-lg p-2 text-sm text-gray-600', {
+                  '': active,
+                  'hover:bg-gray-200': !active,
+                })}>
+                <div className="flex-1 whitespace-nowrap">{tab.name}</div>
+              </Link>
+            </div>
           )
         })}
       </div>

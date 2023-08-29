@@ -1,12 +1,13 @@
 import {useConfig} from '../Config/types'
 import {Link, Navigate} from 'react-router-dom'
 import SpinnerLoading from '../../components/ui/loadings/Spinner'
-import {usePagesFavIcons} from '../Layout/FaviconsContext'
+import {usePagesFavIcons, usePagesTitles} from '../Layout/FaviconsContext'
 import {GlobeAmericasIcon} from '@heroicons/react/24/outline'
 
 export default function SelectATab() {
   const {config} = useConfig()
   const favIcons = usePagesFavIcons()
+  const titles = usePagesTitles()
 
   if (!config) {
     return (
@@ -29,15 +30,20 @@ export default function SelectATab() {
             <Link
               to={`/page/${index}`}
               key={index}
-              className="flex space-x-2 rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <div className="">
-                {favIcons[index] ? (
-                  <img className="w-5" src={favIcons[index]} alt="" />
-                ) : (
-                  <GlobeAmericasIcon className="w-4" />
-                )}
+              className="space-y-2 rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <div className="flex space-x-2">
+                <div className="">
+                  {favIcons[index] ? (
+                    <img className="w-5" src={favIcons[index]} alt="" />
+                  ) : (
+                    <GlobeAmericasIcon className="w-4" />
+                  )}
+                </div>
+                <div className="text-sm">{page.name}</div>
               </div>
-              <div className="text-sm">{page.name}</div>
+              <div className="truncate text-sm text-gray-500">
+                {titles[index]}
+              </div>
             </Link>
           )
         })}

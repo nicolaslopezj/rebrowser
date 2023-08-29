@@ -7,6 +7,7 @@ export interface ElectronAPI {
   setConfig: (config: Partial<Config>) => Promise<void>
   showPage: (index: number) => Promise<void>
   hidePage: (index: number) => Promise<void>
+  resetPage: (index: number) => Promise<void>
   resetAllNavigationStorageAndCache: () => Promise<void>
   getAppVersion: () => Promise<string>
   checkForUpdates: () => Promise<any>
@@ -16,11 +17,24 @@ export interface ElectronAPI {
   onPageFaviconUpdated: (
     callback: (event: any, data: {index: number; imageURL: string}) => void
   ) => void
+  onPageTitleUpdated: (
+    callback: (event: any, data: {index: number; title: string}) => void
+  ) => void
+  setPageLoading: (
+    callback: (event: any, data: {index: number; loading: boolean}) => void
+  ) => void
 }
 
 export const electronAPI = (window as any).electronAPI as ElectronAPI
 
 electronAPI.onPageFaviconUpdated((event, data) => {
-  console.log('onPageFaviconUpdated', data)
   fireEvent('onPageFaviconUpdated', data)
+})
+
+electronAPI.onPageTitleUpdated((event, data) => {
+  fireEvent('onPageTitleUpdated', data)
+})
+
+electronAPI.setPageLoading((event, data) => {
+  fireEvent('setPageLoading', data)
 })

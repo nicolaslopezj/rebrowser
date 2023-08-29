@@ -6,6 +6,7 @@ const invokes = [
   'setConfig',
   'showPage',
   'hidePage',
+  'resetPage',
   'getAppVersion',
   'checkForUpdates',
   'resetAllNavigationStorageAndCache',
@@ -13,7 +14,7 @@ const invokes = [
   'setAudioMuted',
 ]
 
-const events = ['onPageFaviconUpdated']
+const events = ['onPageFaviconUpdated', 'onPageTitleUpdated', 'setPageLoading']
 
 const channels = {}
 

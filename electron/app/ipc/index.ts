@@ -10,7 +10,7 @@ import {
   setConfig,
   testAutoConfigString,
 } from '../config'
-import {hidePage, setAudioMuted, showPage} from '../../pages'
+import {hidePage, setAudioMuted, showPage, resetPage} from '../../pages'
 
 export const handles = {
   restartApp,
@@ -18,6 +18,7 @@ export const handles = {
   setConfig,
   showPage,
   hidePage,
+  resetPage,
   resetAllNavigationStorageAndCache,
   getAppVersion,
   checkForUpdates,

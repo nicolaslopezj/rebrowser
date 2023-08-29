@@ -4,6 +4,7 @@ import {mainWindow} from '../main'
 import {onRequestCompleted} from './send'
 import {pollPendingInstructions} from './executeActions'
 import {getPagesFormAutoConfig} from './getPagesFromAutoConfig'
+import {resetBrowserView} from './executeActions/reset'
 
 export let views: BrowserView[] = []
 
@@ -129,22 +130,34 @@ export function startPage(page: Config['pages'][0], index: number) {
 
   views[index] = view
 
-  view.webContents.loadURL(page.startURL)
-
-  setInterval(() => {
-    pollPendingInstructions(index, view, page).catch(console.error)
-  }, 5000)
-
-  mainWindow.addBrowserView(view)
-
   // get the current favicon
   view.webContents.on('page-favicon-updated', (event, favicons) => {
     const imageURL = favicons[0]
-
-    console.log('page-favicon-updated', imageURL)
     mainWindow.webContents.send('onPageFaviconUpdated', {
       index,
       imageURL,
+    })
+  })
+
+  view.webContents.on('page-title-updated', (event, title) => {
+    console.log('page-title-updated', title)
+    mainWindow.webContents.send('onPageTitleUpdated', {
+      index,
+      title,
+    })
+  })
+
+  view.webContents.on('did-start-loading', () => {
+    mainWindow.webContents.send('setPageLoading', {
+      index,
+      loading: true,
+    })
+  })
+
+  view.webContents.on('did-stop-loading', () => {
+    mainWindow.webContents.send('setPageLoading', {
+      index,
+      loading: false,
     })
   })
 
@@ -156,6 +169,13 @@ export function startPage(page: Config['pages'][0], index: number) {
   mainWindow.on('resize', () => {
     setBounds(views[currentTab])
   })
+
+  view.webContents.loadURL(page.startURL)
+  mainWindow.addBrowserView(view)
+
+  setInterval(() => {
+    pollPendingInstructions(index, view, page).catch(console.error)
+  }, 5000)
 }
 
 export async function startPages() {
@@ -195,6 +215,15 @@ export function hidePage(index: number) {
     return
   }
   view.setBounds({x: 0, y: 0, width: 0, height: 0})
+}
+
+export async function resetPage(index: number) {
+  const view = views[index]
+  if (!view) return
+  const page = getConfig().pages[index]
+  if (!page) return
+
+  await resetBrowserView(view, page)
 }
 
 export function setAudioMuted(muted: boolean) {

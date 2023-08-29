@@ -10,5 +10,19 @@ export async function reset(
 ) {
   console.log(`Will reset ${JSON.stringify(action)}`)
 
-  await view.webContents.loadURL(page.startURL)
+  await resetBrowserView(view, page)
+}
+
+export async function resetBrowserView(
+  view: BrowserView,
+  page: Config['pages'][0]
+) {
+  try {
+    // delete page cache but not session
+    await view.webContents.session.clearCache()
+
+    await view.webContents.loadURL(page.startURL)
+  } catch (error) {
+    console.error('Error reseting view', error)
+  }
 }
