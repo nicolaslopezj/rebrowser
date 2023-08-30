@@ -1,13 +1,13 @@
 {
   "name": "rebrowser",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "private": true,
   "homepage": ".",
   "main": "./build/electron/main.js",
   "repository": "https://github.com/nicolaslopezj/rebrowser",
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "axios": "^1.4.0",
+    "axios": "^1.5.0",
     "classnames": "^2.3.2",
     "dot-object": "^2.1.4",
     "easy-auto-launch": "^6.0.2",
@@ -22,11 +22,11 @@
     "react": "^18.2.0",
     "react-app-events": "^2.0.2",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.12.1",
+    "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "simple-react-form": "^4.0.1",
-    "typescript": "^5.1.3",
-    "web-vitals": "^3.3.2"
+    "typescript": "^5.2.2",
+    "web-vitals": "^3.4.0"
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
@@ -59,18 +59,18 @@
   "devDependencies": {
     "@types/dot-object": "^2.1.2",
     "@types/electron-devtools-installer": "^2.2.2",
-    "@types/jest": "^29.5.2",
-    "@types/lodash": "^4.14.195",
-    "@types/node": "18.16.18",
-    "@types/react": "^18.2.12",
-    "@types/react-dom": "^18.2.5",
-    "concurrently": "^8.2.0",
+    "@types/jest": "^29.5.4",
+    "@types/lodash": "^4.14.197",
+    "@types/node": "16.18.46",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "concurrently": "^8.2.1",
     "cross-env": "^7.0.3",
-    "electron": "^25.1.1",
-    "electron-builder": "^24.4.0",
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0",
-    "tailwindcss": "^3.3.2",
+    "electron": "^22.3.9",
+    "electron-builder": "^24.6.3",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.3",
+    "tailwindcss": "^3.3.3",
     "wait-on": "^7.0.1"
   }
 }

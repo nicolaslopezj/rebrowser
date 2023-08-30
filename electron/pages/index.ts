@@ -9,7 +9,7 @@ import {resetBrowserView} from './executeActions/reset'
 export let views: BrowserView[] = []
 
 const tabsHeight = 40 + 28
-let currentTab = 0
+export let currentTab = 0
 
 export function startPage(page: Config['pages'][0], index: number) {
   const view = new BrowserView({
@@ -223,7 +223,7 @@ export async function resetPage(index: number) {
   const page = getConfig().pages[index]
   if (!page) return
 
-  await resetBrowserView(view, page)
+  await resetBrowserView(view, page, index)
 }
 
 export function setAudioMuted(muted: boolean) {

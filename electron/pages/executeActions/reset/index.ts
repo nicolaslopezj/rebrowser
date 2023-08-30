@@ -1,6 +1,7 @@
 import {BrowserView} from 'electron'
 import {RebrowserAction} from '../../types'
 import {Config} from '../../../app/config'
+import {currentTab, showPage, startPage} from '../..'
 
 export async function reset(
   index: number,
@@ -10,18 +11,23 @@ export async function reset(
 ) {
   console.log(`Will reset ${JSON.stringify(action)}`)
 
-  await resetBrowserView(view, page)
+  await resetBrowserView(view, page, index)
 }
 
 export async function resetBrowserView(
   view: BrowserView,
-  page: Config['pages'][0]
+  page: Config['pages'][0],
+  index: number
 ) {
   try {
     // delete page cache but not session
     await view.webContents.session.clearCache()
 
-    await view.webContents.loadURL(page.startURL)
+    startPage(page, index)
+
+    if (currentTab === index) {
+      showPage(index)
+    }
   } catch (error) {
     console.error('Error reseting view', error)
   }
