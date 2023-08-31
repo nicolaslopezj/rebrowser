@@ -20,6 +20,7 @@ export async function resetBrowserView(
   index: number
 ) {
   try {
+    console.log('will reset view', page)
     // delete page cache but not session
     await view.webContents.session.clearCache()
 

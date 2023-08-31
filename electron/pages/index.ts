@@ -7,6 +7,8 @@ import {getPagesFormAutoConfig} from './getPagesFromAutoConfig'
 import {resetBrowserView} from './executeActions/reset'
 
 export let views: BrowserView[] = []
+const config = getConfig()
+let pages = config.pages
 
 const tabsHeight = 40 + 28
 export let currentTab = 0
@@ -179,12 +181,11 @@ export function startPage(page: Config['pages'][0], index: number) {
 }
 
 export async function startPages() {
-  const config = getConfig()
-  let pages = config.pages
-
   if (config?.autoConfigString) {
     pages = await getPagesFormAutoConfig()
   }
+
+  console.log('starting rebrowser with pages', pages)
 
   if (!pages?.length) {
     return
@@ -218,9 +219,11 @@ export function hidePage(index: number) {
 }
 
 export async function resetPage(index: number) {
+  console.log('received reset page', index)
   const view = views[index]
   if (!view) return
-  const page = getConfig().pages[index]
+  console.log('reset page', config.pages, config.pages[index])
+  const page = pages[index]
   if (!page) return
 
   await resetBrowserView(view, page, index)

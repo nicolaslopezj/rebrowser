@@ -38,12 +38,12 @@ export default function Tabs() {
   }
 
   return (
-    <div className="flex h-10 space-x-2 border-b p-1 px-2">
+    <div className="flex h-10 space-x-2 border-b px-1">
       {tabs.length > 0 && (
         <Link
           to="/"
           className={classNames(
-            'flex items-center justify-center rounded p-2 text-sm text-gray-600',
+            'm-1 flex items-center justify-center rounded p-2 text-sm text-gray-600',
             {
               'bg-gray-200': isPathActive('/'),
               'bg-gray-100 hover:bg-gray-200': !isPathActive('/'),
@@ -54,7 +54,7 @@ export default function Tabs() {
           </div>
         </Link>
       )}
-      <div className="flex flex-1 space-x-2 overflow-auto">
+      <div className="flex h-10 flex-1 space-x-2 overflow-auto py-1">
         {tabs.map((tab, index) => {
           const active = isPathActive(tab.path)
           const loading = loadings[index]
@@ -62,7 +62,7 @@ export default function Tabs() {
             <div
               key={index}
               className={classNames(
-                'group flex h-full items-center justify-start rounded-lg',
+                'group flex items-center justify-start rounded',
                 {
                   'bg-gray-200': active,
                   'bg-gray-100': !active,
@@ -107,7 +107,7 @@ export default function Tabs() {
           electronAPI.setAudioMuted(muteAudio)
         }}
         className={classNames(
-          'flex items-center justify-center rounded p-2 text-sm text-gray-600',
+          'm-1 flex items-center justify-center rounded p-2 text-sm text-gray-600',
           'bg-gray-100 hover:bg-gray-200'
         )}>
         <div>
@@ -121,7 +121,7 @@ export default function Tabs() {
       <Link
         to="/config"
         className={classNames(
-          'flex items-center justify-center rounded p-2 text-sm text-gray-600',
+          'm-1 flex items-center justify-center rounded p-2 text-sm text-gray-600',
           {
             'bg-gray-200': isPathActive('/config'),
             'bg-gray-100 hover:bg-gray-200': !isPathActive('/config'),
