@@ -9,6 +9,7 @@ import {startPages} from './pages'
 import './app/autolaunch'
 import './app/singleInstance'
 import {setupOnClose} from './app/onClose'
+import {checkForUpdates} from './app/lifecycle'
 
 export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
@@ -21,7 +22,7 @@ function createWindow() {
       // Verification logic.
       event.preventDefault()
       callback(true)
-    }
+    },
   )
 
   mainWindow = new BrowserWindow({
@@ -60,7 +61,7 @@ function createWindow() {
         '..',
         'node_modules',
         '.bin',
-        'electron'
+        'electron',
       ),
       forceHardReset: true,
       hardResetMethod: 'exit',
@@ -80,10 +81,13 @@ app.on('ready', () => {
   setTimeout(startPages, 1000)
   setupOnClose(mainWindow)
 
-  autoUpdater.checkForUpdatesAndNotify()
-  setInterval(() => {
-    autoUpdater.checkForUpdatesAndNotify()
-  }, 1000 * 60 * 60 * 1) // 1 hours
+  checkForUpdates().catch(console.error)
+  setInterval(
+    () => {
+      checkForUpdates().catch(console.error)
+    },
+    1000 * 60 * 60 * 1,
+  ) // 1 hours
 })
 
 app.on('window-all-closed', () => {
