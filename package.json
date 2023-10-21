@@ -1,6 +1,6 @@
 {
   "name": "rebrowser",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "private": true,
   "homepage": ".",
   "main": "./build/electron/main.js",

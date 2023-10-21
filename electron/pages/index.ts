@@ -13,18 +13,35 @@ let pages = config.pages
 const tabsHeight = 40 + 28
 export let currentTab = 0
 
+function cleanOldView(index: number) {
+  if (!views[index]) return
+  console.log('cleaning old view', index)
+
+  views[index].webContents.loadURL('about:blank')
+
+  views[index].webContents.removeAllListeners()
+  views[index].webContents.debugger.detach()
+  views[index].webContents.debugger.removeAllListeners()
+}
+
 export function startPage(page: Config['pages'][0], index: number) {
-  const view = new BrowserView({
-    webPreferences: {
-      autoplayPolicy: 'no-user-gesture-required',
-      nodeIntegration: false,
-      contextIsolation: true,
-      offscreen: false,
-      webSecurity: false,
-      allowRunningInsecureContent: true,
-      partition: `persist:rebrowser-${page.partition ?? index}`,
-    },
-  })
+  cleanOldView(index)
+
+  const view =
+    views[index] ||
+    new BrowserView({
+      webPreferences: {
+        autoplayPolicy: 'no-user-gesture-required',
+        nodeIntegration: false,
+        contextIsolation: true,
+        offscreen: false,
+        webSecurity: false,
+        allowRunningInsecureContent: true,
+        partition: `persist:rebrowser-${page.partition ?? index}`,
+      },
+    })
+  views[index] = view
+
   view.webContents.setBackgroundThrottling(false)
 
   // mute audio
@@ -88,7 +105,7 @@ export function startPage(page: Config['pages'][0], index: number) {
             requestsMap.get(params.requestId)?.headers,
             '{}',
             requestsMap.get(params.requestId)?.requestBody,
-            requestsMap.get(params.requestId)?.requestMethod
+            requestsMap.get(params.requestId)?.requestMethod,
           )
 
           return
@@ -109,7 +126,7 @@ export function startPage(page: Config['pages'][0], index: number) {
               requestsMap.get(params.requestId)?.headers,
               body,
               requestsMap.get(params.requestId)?.requestBody,
-              requestsMap.get(params.requestId)?.requestMethod
+              requestsMap.get(params.requestId)?.requestMethod,
             )
           })
           .catch(function (err) {
@@ -122,15 +139,13 @@ export function startPage(page: Config['pages'][0], index: number) {
               requestsMap.get(params.requestId)?.headers,
               '{}',
               requestsMap.get(params.requestId)?.requestBody,
-              requestsMap.get(params.requestId)?.requestMethod
+              requestsMap.get(params.requestId)?.requestMethod,
             )
           })
       }, 500)
     }
   })
   view.webContents.debugger.sendCommand('Network.enable')
-
-  views[index] = view
 
   // get the current favicon
   view.webContents.on('page-favicon-updated', (event, favicons) => {
@@ -227,6 +242,9 @@ export async function resetPage(index: number) {
   if (!page) return
 
   await resetBrowserView(view, page, index)
+  if (currentTab === index) {
+    showPage(index)
+  }
 }
 
 export function setAudioMuted(muted: boolean) {

@@ -20,6 +20,11 @@ module.exports = async function () {
       appId: 'com.nicolaslopezj.rebrowser',
       category: 'Utility',
       icon: 'assets/icon.png',
+      desktop: {
+        Name: 'Rebrowser',
+        Comment: 'A browser to connect to your remote servers',
+        Terminal: 'false',
+      },
       target: [
         {
           target: 'AppImage',

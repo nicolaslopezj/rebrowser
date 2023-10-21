@@ -5,6 +5,7 @@ import {BrowserView, app} from 'electron'
 import {addHistoryEntry} from './history'
 import {executeInstructions} from './executeActions'
 import {filterData} from './getRules'
+import os from 'os'
 
 export async function onRequestCompleted(
   index: number,
@@ -14,11 +15,13 @@ export async function onRequestCompleted(
   requestHeaders: any,
   body: string,
   requestBody?: string,
-  requestMethod?: string
+  requestMethod?: string,
 ) {
   try {
     const data: RebrowserEventData = await filterData(page, index, {
       version: app.getVersion(),
+      arch: process.arch,
+      device: `${os.type()} ${os.release()}`,
       url: response.url,
       body: body,
       requestBody,
@@ -46,8 +49,8 @@ export async function onRequestCompleted(
 
     console.log(
       `Response from endpoint ${page.endpointURL}: ${JSON.stringify(
-        result.data
-      )}`
+        result.data,
+      )}`,
     )
 
     if (result.data.instructions) {
@@ -55,7 +58,7 @@ export async function onRequestCompleted(
     }
   } catch (error) {
     console.log(
-      `Error while sending request to endpoint ${page.endpointURL}: ${error}`
+      `Error while sending request to endpoint ${page.endpointURL}: ${error}`,
     )
   }
 }

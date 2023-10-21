@@ -37,6 +37,8 @@ export interface RebrowserRulesRequestResponse {
 
 export interface RebrowserEventData {
   version: string
+  device: string
+  arch: string
   url: string
   body: string
   requestBody?: string
