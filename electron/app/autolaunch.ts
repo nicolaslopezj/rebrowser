@@ -1,10 +1,17 @@
 import AutoLaunch from 'easy-auto-launch'
+import os from 'os'
 
 // auto launch app on startup
 
-const autoLauncher = new AutoLaunch({
+const autoLaunchOpts: ConstructorType = {
   name: 'Rebrowser',
-})
+}
+
+if (os.platform() === 'linux' && process.env.APPIMAGE) {
+  autoLaunchOpts.path = process.env.APPIMAGE
+}
+
+const autoLauncher = new AutoLaunch(autoLaunchOpts)
 
 autoLauncher.enable()
 
