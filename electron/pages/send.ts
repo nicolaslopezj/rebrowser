@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {Config} from '../app/config'
 import {RebrowserEventData, RebrowserRequestResponse} from './types'
-import {BrowserView, app} from 'electron'
+import {app} from 'electron'
 import {addHistoryEntry} from './history'
 import {executeInstructions} from './executeActions'
 import {filterData} from './getRules'
@@ -9,7 +9,6 @@ import os from 'os'
 
 export async function onRequestCompleted(
   index: number,
-  view: BrowserView,
   page: Config['pages'][0],
   response: any,
   requestHeaders: any,
@@ -54,7 +53,7 @@ export async function onRequestCompleted(
     )
 
     if (result.data.instructions) {
-      await executeInstructions(index, view, result.data.instructions, page)
+      await executeInstructions(index, result.data.instructions, page)
     }
   } catch (error) {
     console.log(

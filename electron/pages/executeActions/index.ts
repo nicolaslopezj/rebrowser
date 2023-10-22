@@ -1,4 +1,3 @@
-import {BrowserView} from 'electron'
 import {RebrowserInstruction, RebrowserRequestResponse} from '../types'
 import {makeRequest} from './makeRequest'
 import axios from 'axios'
@@ -7,13 +6,14 @@ import {navigate} from './navigate'
 import {reload} from './reload'
 import {reset} from './reset'
 import {setLocalStorageItem} from './setLocalStorageItem'
+import {views} from '..'
 
 export async function executeInstructions(
   index: number,
-  view: BrowserView,
   instructions: RebrowserInstruction[],
-  page: Config['pages'][0]
+  page: Config['pages'][0],
 ) {
+  const view = views[index]
   for (const instruction of instructions) {
     try {
       for (const action of instruction.actions) {
@@ -44,10 +44,8 @@ export async function executeInstructions(
 
 export async function pollPendingInstructions(
   index: number,
-  view: BrowserView,
-  page: Config['pages'][0]
+  page: Config['pages'][0],
 ) {
-  console.log(`Polling pending instructions for page ${page.name}`)
   const result = await axios<RebrowserRequestResponse>({
     url: page.endpointURL,
     method: 'get',
@@ -55,7 +53,8 @@ export async function pollPendingInstructions(
       Authorization: `Bearer ${page.endpointAuthenticationToken}`,
     },
   })
-  if (result.data.instructions) {
-    await executeInstructions(index, view, result.data.instructions, page)
+  if (result.data.instructions?.length) {
+    console.log('Will execute instructions', result.data)
+    await executeInstructions(index, result.data.instructions, page)
   }
 }

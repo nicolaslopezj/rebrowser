@@ -13,33 +13,18 @@ let pages = config.pages
 const tabsHeight = 40 + 28
 export let currentTab = 0
 
-function cleanOldView(index: number) {
-  if (!views[index]) return
-  console.log('cleaning old view', index)
-
-  views[index].webContents.loadURL('about:blank')
-
-  views[index].webContents.removeAllListeners()
-  views[index].webContents.debugger.detach()
-  views[index].webContents.debugger.removeAllListeners()
-}
-
 export function startPage(page: Config['pages'][0], index: number) {
-  cleanOldView(index)
-
-  const view =
-    views[index] ||
-    new BrowserView({
-      webPreferences: {
-        autoplayPolicy: 'no-user-gesture-required',
-        nodeIntegration: false,
-        contextIsolation: true,
-        offscreen: false,
-        webSecurity: false,
-        allowRunningInsecureContent: true,
-        partition: `persist:rebrowser-${page.partition ?? index}`,
-      },
-    })
+  const view = new BrowserView({
+    webPreferences: {
+      autoplayPolicy: 'no-user-gesture-required',
+      nodeIntegration: false,
+      contextIsolation: true,
+      offscreen: false,
+      webSecurity: false,
+      allowRunningInsecureContent: true,
+      partition: `persist:rebrowser-${page.partition ?? index}`,
+    },
+  })
   views[index] = view
 
   view.webContents.setBackgroundThrottling(false)
@@ -99,7 +84,6 @@ export function startPage(page: Config['pages'][0], index: number) {
         if (params.response.headers['content-length'] === '0') {
           onRequestCompleted(
             index,
-            view,
             page,
             params.response,
             requestsMap.get(params.requestId)?.headers,
@@ -108,6 +92,7 @@ export function startPage(page: Config['pages'][0], index: number) {
             requestsMap.get(params.requestId)?.requestMethod,
           )
 
+          requestsMap.delete(params.requestId)
           return
         }
 
@@ -120,7 +105,6 @@ export function startPage(page: Config['pages'][0], index: number) {
 
             onRequestCompleted(
               index,
-              view,
               page,
               params.response,
               requestsMap.get(params.requestId)?.headers,
@@ -128,12 +112,12 @@ export function startPage(page: Config['pages'][0], index: number) {
               requestsMap.get(params.requestId)?.requestBody,
               requestsMap.get(params.requestId)?.requestMethod,
             )
+            requestsMap.delete(params.requestId)
           })
           .catch(function (err) {
             console.log(params.response?.url, params.type, err)
             onRequestCompleted(
               index,
-              view,
               page,
               params.response,
               requestsMap.get(params.requestId)?.headers,
@@ -141,6 +125,7 @@ export function startPage(page: Config['pages'][0], index: number) {
               requestsMap.get(params.requestId)?.requestBody,
               requestsMap.get(params.requestId)?.requestMethod,
             )
+            requestsMap.delete(params.requestId)
           })
       }, 500)
     }
@@ -191,7 +176,7 @@ export function startPage(page: Config['pages'][0], index: number) {
   mainWindow.addBrowserView(view)
 
   setInterval(() => {
-    pollPendingInstructions(index, view, page).catch(console.error)
+    pollPendingInstructions(index, page).catch(console.error)
   }, 5000)
 }
 

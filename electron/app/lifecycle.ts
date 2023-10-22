@@ -1,8 +1,9 @@
-import {app} from 'electron'
+import {RelaunchOptions, app} from 'electron'
 import {autoUpdater} from 'electron-updater'
 import {views} from '../pages'
-import {BrowserWindow, dialog} from 'electron'
+import {dialog} from 'electron'
 import {mainWindow} from '../main'
+import {execFile} from 'child_process'
 
 export function getAppVersion() {
   return app.getVersion()
@@ -13,8 +14,18 @@ export function getAppVersion() {
  */
 export function restartApp() {
   console.log('restarting app...')
-  app.relaunch()
-  app.exit()
+  const options: RelaunchOptions = {
+    args: process.argv.slice(1).concat(['--relaunch']),
+    execPath: process.execPath,
+  }
+  // Fix for .AppImage
+  if (app.isPackaged && process.env.APPIMAGE) {
+    execFile(process.env.APPIMAGE, options.args)
+    app.quit()
+    return
+  }
+  app.relaunch(options)
+  app.quit()
 }
 
 /**

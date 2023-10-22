@@ -4,7 +4,7 @@ import {RebrowserAction} from '../../types'
 export async function navigate(
   index: number,
   view: BrowserView,
-  action: RebrowserAction
+  action: RebrowserAction,
 ) {
   console.log(`Will navigate ${JSON.stringify(action)}`)
   const code = `window.location.href = ${JSON.stringify(action.url)};`
