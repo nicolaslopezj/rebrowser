@@ -58,6 +58,7 @@ export async function onRequestCompleted(
   } catch (error) {
     console.log(
       `Error while sending request to endpoint ${page.endpointURL}: ${error}`,
+      error.response?.data,
     )
   }
 }
