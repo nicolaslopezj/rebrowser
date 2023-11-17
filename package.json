@@ -1,5 +1,8 @@
 {
   "name": "rebrowser",
+  "author": {
+    "name": "Nicolas Lopez"
+  },
   "version": "0.15.4",
   "private": true,
   "homepage": ".",
@@ -58,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@electron/notarize": "^2.2.0",
     "@types/dot-object": "^2.1.2",
     "@types/electron-devtools-installer": "^2.2.2",
     "@types/jest": "^29.5.4",

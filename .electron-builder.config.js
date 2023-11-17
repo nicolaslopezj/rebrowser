@@ -24,6 +24,9 @@ module.exports = async function () {
       entitlements:
         './node_modules/electron-builder-notarize/entitlements.mac.inherit.plist',
       publish: ['github'],
+      notarize: {
+        teamId: '3CZ24HA8DS',
+      },
       target: [
         {
           target: 'dmg',
