@@ -11,12 +11,10 @@ export interface Props {
 }
 export default function Layout(props: Props) {
   const context = useCreateFavIconsContext()
-  const [didSign, setDidSign] = useLocalStorage('didSignTOS.v2', false)
-  if (!didSign) {
-    return <SignTOS setDidSign={setDidSign} />
-  }
+  const [didSign, setDidSign] = useLocalStorage('didSignTOS.v3', false)
   return (
     <InternalPagesFavIconsContext.Provider value={context}>
+      {!didSign && <SignTOS setDidSign={setDidSign} />}
       <div className="flex h-screen flex-col">
         <Tabs />
         {props.children}
