@@ -40,6 +40,8 @@ module.exports = async function () {
     },
     win: {
       publisherName: 'Nicolas Lopez',
+      signingHashAlgorithms: ['sha256'],
+      sign: './signing/sign.js',
       verifyUpdateCodeSignature: false,
       publish: ['github'],
       icon: 'assets/icon.ico',

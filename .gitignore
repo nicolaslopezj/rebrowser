@@ -25,6 +25,8 @@ yarn-error.log*
 # build
 build.sh
 build-linux.sh
+build-win.sh
 cert.p12
 /dist
 notarization-error.log
+/signing
