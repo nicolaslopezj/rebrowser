@@ -45,6 +45,7 @@ module.exports = async function () {
       verifyUpdateCodeSignature: false,
       publish: ['github'],
       icon: 'assets/icon.ico',
+      artifactName: `Rebrowser-setup-v${process.env.npm_package_version}.exe`,
       target: [
         {
           target: 'nsis',
