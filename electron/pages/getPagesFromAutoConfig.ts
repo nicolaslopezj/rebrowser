@@ -1,30 +1,41 @@
 import axios from 'axios'
 import {Config, getConfig} from '../app/config'
 
-export async function getPagesFormAutoConfig() {
+async function getAutoConfigFromString(autoConfigString: string) {
+  const base64decoded = Buffer.from(autoConfigString, 'base64').toString(
+    'utf-8',
+  )
+  const {url, token} = JSON.parse(base64decoded)
+
+  const {data} = await axios<{pages: Config['pages']}>({
+    url: url,
+    method: 'get',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  console.log(data)
+
+  return data.pages || []
+}
+
+export async function getPagesFormAutoConfig(): Promise<Config['pages']> {
   try {
     const config = getConfig()
     if (!config?.autoConfigString) {
       throw new Error('No autoConfigString found in config')
     }
 
-    const base64decoded = Buffer.from(
-      config.autoConfigString,
-      'base64'
-    ).toString('utf-8')
-    const {url, token} = JSON.parse(base64decoded)
+    const strings = config.autoConfigString.split(',')
 
-    const {data} = await axios<{pages: Config['pages']}>({
-      url: url,
-      method: 'get',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const pages = []
+    for (const string of strings) {
+      const pagesFromAutoConfig = await getAutoConfigFromString(string)
+      pages.push(...pagesFromAutoConfig)
+    }
 
-    console.log(data)
-
-    return data.pages || []
+    return pages
   } catch (error) {
     console.error(error)
     return []

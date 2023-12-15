@@ -6,7 +6,7 @@ export interface Props {
 }
 export default function SignTOS(props: Props) {
   return (
-    <div className="fixed inset-0 space-y-10 bg-white px-32 py-10">
+    <div className="fixed inset-0 z-10 space-y-10 bg-white px-32 py-10">
       <div className="text-md font-medium">
         Please read the following terms of service to use the app.
       </div>
