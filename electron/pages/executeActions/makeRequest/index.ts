@@ -1,6 +1,7 @@
 import {BrowserView} from 'electron'
 import {RebrowserAction} from '../../types'
 import {getHistory} from '../../history'
+import {getFrame} from '../executeScript/getFrame'
 
 export async function makeRequest(
   index: number,
@@ -26,9 +27,10 @@ export async function makeRequest(
   }
   const code = `fetch("${action.url}", ${JSON.stringify(params)})`
 
-  console.log(`Will execute code ${code}`)
+  console.log(`Will execute code ${code} - frame:${action.frame}`)
 
-  await view.webContents.executeJavaScript(code)
+  const win = await getFrame(view, action.frame)
+  await win.executeJavaScript(code)
 }
 
 function getHeaders(index: number, action: RebrowserAction) {

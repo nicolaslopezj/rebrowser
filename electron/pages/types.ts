@@ -6,6 +6,7 @@ export interface RebrowserAction {
     | 'reload'
     | 'setLocalStorageItem'
     | 'reset'
+    | 'executeScript'
   requestMethod?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   requestBody?: string
   requestHeaders?: any
@@ -14,6 +15,8 @@ export interface RebrowserAction {
   localStorageKey?: string
   localStorageValue?: string
   url?: string
+  code?: string
+  frame?: string
 }
 
 export interface RebrowserInstruction {

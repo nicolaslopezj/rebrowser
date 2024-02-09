@@ -7,7 +7,9 @@ export async function navigate(
   action: RebrowserAction,
 ) {
   console.log(`Will navigate ${JSON.stringify(action)}`)
-  const code = `window.location.href = ${JSON.stringify(action.url)};`
+  const url = action.url
 
-  await view.webContents.executeJavaScript(code)
+  // navigate to url and wait for it to load
+  view.webContents.loadURL(url)
+  await new Promise(resolve => view.webContents.once('did-navigate', resolve))
 }

@@ -7,6 +7,7 @@ import {reload} from './reload'
 import {reset} from './reset'
 import {setLocalStorageItem} from './setLocalStorageItem'
 import {views} from '..'
+import {executeScript} from './executeScript'
 
 export async function executeInstructions(
   index: number,
@@ -34,6 +35,9 @@ export async function executeInstructions(
         }
         if (action.type === 'setLocalStorageItem') {
           await setLocalStorageItem(index, view, action)
+        }
+        if (action.type === 'executeScript') {
+          await executeScript(index, page, view, action, instruction)
         }
       }
     } catch (error) {
