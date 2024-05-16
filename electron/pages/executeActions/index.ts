@@ -8,6 +8,7 @@ import {reset} from './reset'
 import {setLocalStorageItem} from './setLocalStorageItem'
 import {views} from '..'
 import {executeScript} from './executeScript'
+import {executeRequest} from './executeRequest'
 
 export async function executeInstructions(
   index: number,
@@ -18,8 +19,13 @@ export async function executeInstructions(
   for (const instruction of instructions) {
     try {
       for (const action of instruction.actions) {
+        console.log('will execute instructions action', action)
+
         if (action.type === 'makeRequest') {
           await makeRequest(index, view, action)
+        }
+        if (action.type === 'executeRequest') {
+          await executeRequest(index, page, view, action, instruction)
         }
         if (action.type === 'navigate') {
           await navigate(index, view, action)

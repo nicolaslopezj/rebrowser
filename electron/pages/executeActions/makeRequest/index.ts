@@ -33,7 +33,7 @@ export async function makeRequest(
   await win.executeJavaScript(code)
 }
 
-function getHeaders(index: number, action: RebrowserAction) {
+export function getHeaders(index: number, action: RebrowserAction) {
   if (!action.takeHeadersFromRequestThatStartsWith) return {}
 
   const history = getHistory(index)
