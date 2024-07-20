@@ -1,0 +1,14 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#78350f",
+    "statusBar.foreground": "#fde68a",
+    "statusBarItem.hoverBackground": "#b45309"
+  },
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "eslint.validate": ["javascript"],
+  "editor.defaultFormatter": "biomejs.biome"
+}
