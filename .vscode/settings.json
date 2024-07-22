@@ -9,6 +9,5 @@
     "source.organizeImports.biome": "explicit"
   },
   "editor.formatOnSave": true,
-  "eslint.validate": ["javascript"],
   "editor.defaultFormatter": "biomejs.biome"
 }
