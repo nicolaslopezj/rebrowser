@@ -2,9 +2,7 @@ import axios from 'axios'
 import {Config, getConfig} from '../app/config'
 
 async function getAutoConfigFromString(autoConfigString: string, retries = 0) {
-  const base64decoded = Buffer.from(autoConfigString, 'base64').toString(
-    'utf-8',
-  )
+  const base64decoded = Buffer.from(autoConfigString, 'base64').toString('utf-8')
   const {url, token} = JSON.parse(base64decoded)
 
   try {

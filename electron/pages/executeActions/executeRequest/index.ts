@@ -1,15 +1,15 @@
+import os from 'os'
+import axios from 'axios'
 import {BrowserView} from 'electron'
+import {app} from 'electron'
+import {executeInstructions} from '..'
+import {Config} from '../../../app/config'
 import {
   RebrowserAction,
   RebrowserEventData,
   RebrowserInstruction,
   RebrowserRequestResponse,
 } from '../../types'
-import axios from 'axios'
-import {app} from 'electron'
-import os from 'os'
-import {Config} from '../../../app/config'
-import {executeInstructions} from '..'
 import {getFrame} from '../executeScript/getFrame'
 import {getHeaders} from '../makeRequest'
 
@@ -54,8 +54,7 @@ export async function executeRequest(
   } catch (error) {
     console.log('error while executing script', error)
     errorMessage =
-      error?.response?.data ||
-      JSON.stringify(error?.message || error || 'Unknown error')
+      error?.response?.data || JSON.stringify(error?.message || error || 'Unknown error')
     statusCode = error.response?.status || 500
   }
   const actionIndex = instruction.actions.indexOf(action)
@@ -82,11 +81,7 @@ export async function executeRequest(
     },
   })
 
-  console.log(
-    `Response from endpoint ${page.endpointURL}: ${JSON.stringify(
-      result.data,
-    )}`,
-  )
+  console.log(`Response from endpoint ${page.endpointURL}: ${JSON.stringify(result.data)}`)
 
   if (result.data.instructions) {
     await executeInstructions(index, result.data.instructions, page)

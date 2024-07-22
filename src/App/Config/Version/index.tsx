@@ -41,7 +41,8 @@ export default function AppVersion() {
               body: error.message,
             })
           }
-        }}>
+        }}
+      >
         Check for updates{loading ? '...' : ''}
       </TextButton>
     </div>

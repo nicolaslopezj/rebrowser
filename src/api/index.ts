@@ -15,14 +15,10 @@ export interface ElectronAPI {
   setAudioMuted: (muted: boolean) => Promise<void>
 
   onPageFaviconUpdated: (
-    callback: (event: any, data: {index: number; imageURL: string}) => void
+    callback: (event: any, data: {index: number; imageURL: string}) => void,
   ) => void
-  onPageTitleUpdated: (
-    callback: (event: any, data: {index: number; title: string}) => void
-  ) => void
-  setPageLoading: (
-    callback: (event: any, data: {index: number; loading: boolean}) => void
-  ) => void
+  onPageTitleUpdated: (callback: (event: any, data: {index: number; title: string}) => void) => void
+  setPageLoading: (callback: (event: any, data: {index: number; loading: boolean}) => void) => void
 }
 
 export const electronAPI = (window as any).electronAPI as ElectronAPI

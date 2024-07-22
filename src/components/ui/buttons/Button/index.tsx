@@ -2,10 +2,7 @@ import classNames from 'classnames'
 import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import SpinnerLoading from '../../loadings/Spinner'
-import {
-  ButtonClickResponseAction,
-  useResponseActionStatus,
-} from './responseAction'
+import {ButtonClickResponseAction, useResponseActionStatus} from './responseAction'
 
 export interface ButtonProps {
   icon?: React.ElementType
@@ -51,36 +48,30 @@ export interface ButtonRef {
   setOnClick: (onClick: () => any) => void
 }
 
-export type ButtonStyleProps =
-  | 'disabled'
-  | 'slate'
-  | 'primary'
-  | 'danger'
-  | 'success'
-  | 'dark'
+export type ButtonStyleProps = 'disabled' | 'slate' | 'primary' | 'danger' | 'success' | 'dark'
 export type ButtonSizeProps = 'small' | 'big' | 'full'
 
 export function getButtonStyle(props: Pick<ButtonProps, ButtonStyleProps>) {
   const style = props.disabled
     ? 'disabled'
     : props.slate
-    ? 'slate'
-    : props.success
-    ? 'success'
-    : props.primary
-    ? 'primary'
-    : props.dark
-    ? 'dark'
-    : props.danger
-    ? 'danger'
-    : 'default'
+      ? 'slate'
+      : props.success
+        ? 'success'
+        : props.primary
+          ? 'primary'
+          : props.dark
+            ? 'dark'
+            : props.danger
+              ? 'danger'
+              : 'default'
   return style
 }
 
 export function getButtonClassName(
   props: Pick<ButtonProps, ButtonStyleProps | ButtonSizeProps | 'className'>,
   loading = false,
-  responseActionStatus?: ButtonClickResponseAction | null
+  responseActionStatus?: ButtonClickResponseAction | null,
 ) {
   const style = getButtonStyle(props)
   const size = props.small ? 'small' : props.big ? 'big' : 'default'
@@ -132,7 +123,7 @@ export function getButtonClassName(
       // response action states
       'animate-shake': responseActionStatus === ButtonClickResponseAction.error,
     },
-    props.className
+    props.className,
   )
 }
 
@@ -144,8 +135,7 @@ function Button(props: ButtonProps, ref: React.Ref<ButtonRef>) {
   const overrideOnClickRef = useRef<() => any>()
   const [formId, internalSetFormId] = useState<string | null>(null)
   const navigate = useNavigate()
-  const {responseActionStatus, setResponseActionStatus} =
-    useResponseActionStatus()
+  const {responseActionStatus, setResponseActionStatus} = useResponseActionStatus()
 
   const onClick = async () => {
     if (props.disabled || loading) return
@@ -211,7 +201,8 @@ function Button(props: ButtonProps, ref: React.Ref<ButtonRef>) {
       disabled={props.disabled || loading}
       onClick={onClick}
       style={props.style || {}}
-      className={className}>
+      className={className}
+    >
       <div className="flex items-center justify-center space-x-3">
         {loading ? (
           <SpinnerLoading
@@ -226,9 +217,7 @@ function Button(props: ButtonProps, ref: React.Ref<ButtonRef>) {
         ) : (
           <div className="-mr-3 h-5"></div>
         )}
-        {props.children && (
-          <div className="">{confirm ? props.confirmText : props.children}</div>
-        )}
+        {props.children && <div className="">{confirm ? props.confirmText : props.children}</div>}
       </div>
     </button>
   )

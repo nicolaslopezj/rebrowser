@@ -1,14 +1,14 @@
-import {RebrowserInstruction, RebrowserRequestResponse} from '../types'
-import {makeRequest} from './makeRequest'
 import axios from 'axios'
+import {views} from '..'
 import {Config} from '../../app/config'
+import {RebrowserInstruction, RebrowserRequestResponse} from '../types'
+import {executeRequest} from './executeRequest'
+import {executeScript} from './executeScript'
+import {makeRequest} from './makeRequest'
 import {navigate} from './navigate'
 import {reload} from './reload'
 import {reset} from './reset'
 import {setLocalStorageItem} from './setLocalStorageItem'
-import {views} from '..'
-import {executeScript} from './executeScript'
-import {executeRequest} from './executeRequest'
 
 export async function executeInstructions(
   index: number,
@@ -52,10 +52,7 @@ export async function executeInstructions(
   }
 }
 
-export async function pollPendingInstructions(
-  index: number,
-  page: Config['pages'][0],
-) {
+export async function pollPendingInstructions(index: number, page: Config['pages'][0]) {
   const result = await axios<RebrowserRequestResponse>({
     url: page.endpointURL,
     method: 'get',

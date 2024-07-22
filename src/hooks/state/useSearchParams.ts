@@ -2,7 +2,7 @@ import {useLocation, useSearchParams} from 'react-router-dom'
 
 export function useSearchParam(
   key: string,
-  defaultValue?: string
+  defaultValue?: string,
 ): [string, (value: string) => void] {
   const location = useLocation()
 

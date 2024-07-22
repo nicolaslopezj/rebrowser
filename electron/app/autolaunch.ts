@@ -1,5 +1,5 @@
-import AutoLaunch from 'easy-auto-launch'
 import os from 'os'
+import AutoLaunch from 'easy-auto-launch'
 
 // auto launch app on startup
 
@@ -19,13 +19,13 @@ autoLauncher.enable()
 
 autoLauncher
   .isEnabled()
-  .then(function (isEnabled) {
+  .then(isEnabled => {
     if (isEnabled) {
       return
     }
     autoLauncher.enable()
   })
-  .catch(function (err) {
+  .catch(err => {
     // handle error
     console.error(err)
   })

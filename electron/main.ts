@@ -1,29 +1,25 @@
 import './log'
 import './app/handleErrors'
-import {app, BrowserWindow, powerSaveBlocker} from 'electron'
-import {autoUpdater} from 'electron-updater'
 import * as path from 'path'
+import {BrowserWindow, app, powerSaveBlocker} from 'electron'
 import isDev from 'electron-is-dev'
 import {initIpc} from './app/ipc'
 import {startPages} from './pages'
 import './app/autolaunch'
 import './app/singleInstance'
-import {setupOnClose} from './app/onClose'
 import {checkForUpdates} from './app/lifecycle'
+import {setupOnClose} from './app/onClose'
 
 export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
 
 function createWindow() {
   app.commandLine.appendSwitch('ignore-certificate-errors')
-  app.on(
-    'certificate-error',
-    (event, webContents, url, error, certificate, callback) => {
-      // Verification logic.
-      event.preventDefault()
-      callback(true)
-    },
-  )
+  app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+    // Verification logic.
+    event.preventDefault()
+    callback(true)
+  })
 
   mainWindow = new BrowserWindow({
     width: 1000,
@@ -55,14 +51,7 @@ function createWindow() {
   if (isDev) {
     // 'node_modules/.bin/electronPath'
     require('electron-reload')(__dirname, {
-      electron: path.join(
-        __dirname,
-        '..',
-        '..',
-        'node_modules',
-        '.bin',
-        'electron',
-      ),
+      electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
       forceHardReset: true,
       hardResetMethod: 'exit',
     })

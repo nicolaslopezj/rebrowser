@@ -1,10 +1,9 @@
-import {ArrayComponent} from 'simple-react-form'
-import without from 'lodash/without'
 import {MinusCircleIcon, PlusIcon} from '@heroicons/react/24/outline'
-import ObjectField from '../ObjectField'
-import React from 'react'
+import without from 'lodash/without'
+import {ArrayComponent} from 'simple-react-form'
 import Button from '../../buttons/Button'
 import InputContainer from '../InputContainer'
+import ObjectField from '../ObjectField'
 
 export default class ArrayField extends ArrayComponent {
   static defaultProps = {
@@ -32,10 +31,7 @@ export default class ArrayField extends ArrayComponent {
     if (this.props.disabled) return
     return (
       <div className="">
-        <Button
-          buttonType="button"
-          danger
-          onClick={() => this.removeItem(index)}>
+        <Button buttonType="button" danger onClick={() => this.removeItem(index)}>
           <MinusCircleIcon className="h-5" />
         </Button>
       </div>

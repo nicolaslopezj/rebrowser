@@ -1,8 +1,5 @@
 import {useLocalStorage} from '../../hooks/state/useLocalStorage'
-import {
-  InternalPagesFavIconsContext,
-  useCreateFavIconsContext,
-} from './FaviconsContext'
+import {InternalPagesFavIconsContext, useCreateFavIconsContext} from './FaviconsContext'
 import SignTOS from './SignTOS'
 import Tabs from './Tabs'
 

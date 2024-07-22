@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react'
 // Hook
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T
+  initialValue: T,
 ): [T, (value: T | ((prevData: T) => T)) => void] {
   function getInitalState() {
     if (typeof window === 'undefined') {

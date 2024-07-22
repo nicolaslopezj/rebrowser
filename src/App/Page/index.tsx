@@ -1,5 +1,5 @@
-import {useParams} from 'react-router-dom'
 import {useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 import {electronAPI} from '../../api'
 
 export default function Page() {

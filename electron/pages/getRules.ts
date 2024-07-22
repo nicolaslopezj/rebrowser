@@ -1,19 +1,14 @@
-import axios from 'axios'
-import {
-  RebrowserEventData,
-  RebrowserRule,
-  RebrowserRulesRequestResponse,
-} from './types'
-import {Config} from '../app/config'
-import dot from 'dot-object'
 import crypto from 'crypto'
-import {convertToObject} from 'typescript'
+import axios from 'axios'
+import dot from 'dot-object'
+import {Config} from '../app/config'
+import {RebrowserEventData, RebrowserRule, RebrowserRulesRequestResponse} from './types'
 
 const cache = new Map<number, RebrowserRule[]>()
 
 export async function getPageRules(
   page: Config['pages'][0],
-  index: number
+  index: number,
 ): Promise<RebrowserRule[]> {
   const cached = cache.get(index)
   if (cached) {
@@ -53,7 +48,7 @@ function cleanValue(value: any) {
 export async function filterData(
   page: Config['pages'][0],
   index: number,
-  data: RebrowserEventData
+  data: RebrowserEventData,
 ) {
   const rules = await getPageRules(page, index)
   const bodyJSON = getJSON(data.body)
@@ -79,9 +74,7 @@ export async function filterData(
             dot.str(filterParam, cleanedValue, bodyJSON)
           }
         } catch (error) {
-          console.log(
-            `Error while filtering data for rule ${rule.urlMatch}: ${error}`
-          )
+          console.log(`Error while filtering data for rule ${rule.urlMatch}: ${error}`)
         }
       }
     }

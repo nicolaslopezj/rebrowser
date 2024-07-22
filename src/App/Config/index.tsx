@@ -1,15 +1,15 @@
-import {Field, Form, WithValue} from 'simple-react-form'
-import ArrayField from '../../components/ui/fields/ArrayComponent'
-import TextInput from '../../components/ui/fields/TextInput'
-import PasswordInput from '../../components/ui/fields/Password'
-import {useConfig} from './types'
-import Button from '../../components/ui/buttons/Button'
-import {electronAPI} from '../../api'
-import AppVersion from './Version'
 import {useState} from 'react'
-import TextButton from '../../components/ui/buttons/TextButton'
+import {Field, Form, WithValue} from 'simple-react-form'
+import {electronAPI} from '../../api'
+import Button from '../../components/ui/buttons/Button'
 import {ButtonClickResponseAction} from '../../components/ui/buttons/Button/responseAction'
+import TextButton from '../../components/ui/buttons/TextButton'
+import ArrayField from '../../components/ui/fields/ArrayComponent'
+import PasswordInput from '../../components/ui/fields/Password'
+import TextInput from '../../components/ui/fields/TextInput'
 import SpinnerLoading from '../../components/ui/loadings/Spinner'
+import AppVersion from './Version'
+import {useConfig} from './types'
 
 export default function ConfigIndex() {
   const {config, setConfig} = useConfig()
@@ -29,18 +29,13 @@ export default function ConfigIndex() {
           <Button primary onClick={() => electronAPI.restartApp()}>
             Restart
           </Button>
-          <Button
-            primary
-            onClick={() => electronAPI.resetAllNavigationStorageAndCache()}>
+          <Button primary onClick={() => electronAPI.resetAllNavigationStorageAndCache()}>
             Reset caché
           </Button>
         </div>
         <AppVersion />
       </div>
-      <Form
-        state={config}
-        onChange={setConfig}
-        onSubmit={() => alert('submit')}>
+      <Form state={config} onChange={setConfig} onSubmit={() => alert('submit')}>
         <div className="space-y-5">
           <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-white">
             Auto config string
@@ -66,7 +61,8 @@ export default function ConfigIndex() {
                     return ButtonClickResponseAction.error
                   }
                 }}
-                primary>
+                primary
+              >
                 Test
               </Button>
             </div>
@@ -77,12 +73,8 @@ export default function ConfigIndex() {
                 if (value.autoConfigString) {
                   return (
                     <div>
-                      <div>
-                        Your config is imported by the auto config string.
-                      </div>
-                      <pre className="text-xs">
-                        {JSON.stringify(value.pages, null, 2)}
-                      </pre>
+                      <div>Your config is imported by the auto config string.</div>
+                      <pre className="text-xs">{JSON.stringify(value.pages, null, 2)}</pre>
                     </div>
                   )
                 }
@@ -133,9 +125,7 @@ export default function ConfigIndex() {
             </WithValue>
           ) : (
             <div>
-              <TextButton onClick={() => setShowDetails(true)}>
-                Show advanced config
-              </TextButton>
+              <TextButton onClick={() => setShowDetails(true)}>Show advanced config</TextButton>
             </div>
           )}
         </div>

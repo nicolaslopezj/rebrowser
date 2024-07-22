@@ -1,8 +1,8 @@
-import {useConfig} from '../Config/types'
+import {GlobeAmericasIcon} from '@heroicons/react/24/outline'
 import {Link, Navigate} from 'react-router-dom'
 import SpinnerLoading from '../../components/ui/loadings/Spinner'
+import {useConfig} from '../Config/types'
 import {usePagesFavIcons, usePagesTitles} from '../Layout/FaviconsContext'
-import {GlobeAmericasIcon} from '@heroicons/react/24/outline'
 
 export default function SelectATab() {
   const {config} = useConfig()
@@ -30,7 +30,8 @@ export default function SelectATab() {
             <Link
               to={`/page/${index}`}
               key={index}
-              className="space-y-2 rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              className="space-y-2 rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+            >
               <div className="flex space-x-2">
                 <div className="">
                   {favIcons[index] ? (
@@ -41,9 +42,7 @@ export default function SelectATab() {
                 </div>
                 <div className="text-sm">{page.name}</div>
               </div>
-              <div className="truncate text-sm text-gray-500">
-                {titles[index]}
-              </div>
+              <div className="truncate text-sm text-gray-500">{titles[index]}</div>
             </Link>
           )
         })}

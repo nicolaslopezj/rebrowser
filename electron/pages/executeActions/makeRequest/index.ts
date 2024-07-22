@@ -1,13 +1,9 @@
 import {BrowserView} from 'electron'
-import {RebrowserAction} from '../../types'
 import {getHistory} from '../../history'
+import {RebrowserAction} from '../../types'
 import {getFrame} from '../executeScript/getFrame'
 
-export async function makeRequest(
-  index: number,
-  view: BrowserView,
-  action: RebrowserAction,
-) {
+export async function makeRequest(index: number, view: BrowserView, action: RebrowserAction) {
   console.log(`Will make request ${JSON.stringify(action)}`)
   const headers = getHeaders(index, action) || {}
 

@@ -1,6 +1,6 @@
 import {BrowserView} from 'electron'
-import {RebrowserAction} from '../../types'
 import {Config} from '../../../app/config'
+import {RebrowserAction} from '../../types'
 
 export async function reset(
   index: number,
@@ -13,11 +13,7 @@ export async function reset(
   await resetBrowserView(view, page, index)
 }
 
-export async function resetBrowserView(
-  view: BrowserView,
-  page: Config['pages'][0],
-  index: number,
-) {
+export async function resetBrowserView(view: BrowserView, page: Config['pages'][0], index: number) {
   try {
     console.log('will reset view', page)
     await view.webContents.loadURL('about:blank')

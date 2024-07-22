@@ -8,8 +8,7 @@ export enum ButtonClickResponseAction {
 const values = Object.values(ButtonClickResponseAction)
 
 export function useResponseActionStatus() {
-  const [responseActionStatus, setStatus] =
-    useState<ButtonClickResponseAction | null>(null)
+  const [responseActionStatus, setStatus] = useState<ButtonClickResponseAction | null>(null)
 
   function setResponseActionStatus(status: any) {
     if (!status) return

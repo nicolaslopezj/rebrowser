@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useContext,
-  useState,
-} from 'react'
+import {Dispatch, SetStateAction, createContext, useContext, useState} from 'react'
 import {useOnEvent} from 'react-app-events'
 
 export interface PagesFavIconsContext {
@@ -14,8 +8,7 @@ export interface PagesFavIconsContext {
   setPagesFavIcons: Dispatch<SetStateAction<string[]>>
 }
 
-export const InternalPagesFavIconsContext =
-  createContext<PagesFavIconsContext>(null)
+export const InternalPagesFavIconsContext = createContext<PagesFavIconsContext>(null)
 
 export function usePagesFavIcons() {
   const context = useContext(InternalPagesFavIconsContext)
@@ -37,17 +30,14 @@ export function useCreateFavIconsContext(): PagesFavIconsContext {
   const [pagesTitles, setPagesTitles] = useState<string[]>([])
   const [pagesLoadings, setPagesLoadings] = useState<boolean[]>([])
 
-  useOnEvent(
-    'onPageFaviconUpdated',
-    (params: {index: number; imageURL: string}) => {
-      const {index, imageURL} = params
-      setPagesFavIcons(favIcons => {
-        const newFavIcons = [...favIcons]
-        newFavIcons[index] = imageURL
-        return newFavIcons
-      })
-    }
-  )
+  useOnEvent('onPageFaviconUpdated', (params: {index: number; imageURL: string}) => {
+    const {index, imageURL} = params
+    setPagesFavIcons(favIcons => {
+      const newFavIcons = [...favIcons]
+      newFavIcons[index] = imageURL
+      return newFavIcons
+    })
+  })
 
   useOnEvent('onPageTitleUpdated', (params: {index: number; title: string}) => {
     const {index, title} = params

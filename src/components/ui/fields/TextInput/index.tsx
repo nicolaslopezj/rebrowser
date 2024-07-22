@@ -1,8 +1,8 @@
-import {FieldProps} from 'simple-react-form'
 import {ExclamationCircleIcon} from '@heroicons/react/24/solid'
-import {InputHTMLAttributes, useEffect, useRef} from 'react'
-import InputContainer from '../InputContainer'
 import classNames from 'classnames'
+import {InputHTMLAttributes, useEffect, useRef} from 'react'
+import {FieldProps} from 'simple-react-form'
+import InputContainer from '../InputContainer'
 
 export type TextInputProps = {
   inputType?: string
@@ -33,11 +33,7 @@ export default function TextInput(props: FieldProps<string, TextInputProps>) {
 
   return (
     <InputContainer {...props}>
-      <div
-        className={classNames(
-          'relative flex rounded-md shadow-sm',
-          props.containerClassName
-        )}>
+      <div className={classNames('relative flex rounded-md shadow-sm', props.containerClassName)}>
         <input
           ref={input}
           disabled={props.disabled}
@@ -55,23 +51,18 @@ export default function TextInput(props: FieldProps<string, TextInputProps>) {
             'block w-full flex-1 rounded-md border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm',
             {
               'bg-gray-100 text-gray-500': props.disabled,
-            }
+            },
           )}
           placeholder={props.placeholder}
         />
         {props.appendContent && (
           <div className="absolute inset-y-0 right-0 z-10 flex items-center pr-3">
-            <span className="text-gray-500 dark:text-white sm:text-sm">
-              {props.appendContent}
-            </span>
+            <span className="text-gray-500 dark:text-white sm:text-sm">{props.appendContent}</span>
           </div>
         )}
         {props.errorMessage ? (
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ExclamationCircleIcon
-              className="h-5 w-5 text-red-500"
-              aria-hidden="true"
-            />
+            <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
           </div>
         ) : null}
       </div>

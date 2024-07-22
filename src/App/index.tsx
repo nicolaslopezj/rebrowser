@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom'
-import Layout from './Layout'
 import ConfigIndex from './Config'
+import Layout from './Layout'
 import Page from './Page'
 import SelectATab from './SelectPage'
 

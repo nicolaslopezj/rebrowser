@@ -1,7 +1,3 @@
-/* eslint-disable react/style-prop-object */
-import classNames from 'classnames'
-import {Link, useLocation} from 'react-router-dom'
-import {useConfig} from '../../Config/types'
 import {
   ArrowPathIcon,
   CogIcon,
@@ -9,11 +5,14 @@ import {
   HomeIcon,
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
-  StopCircleIcon,
 } from '@heroicons/react/24/outline'
+/* eslint-disable react/style-prop-object */
+import classNames from 'classnames'
+import {Link, useLocation} from 'react-router-dom'
 import {electronAPI} from '../../../api'
-import {usePagesFavIcons, usePagesLoadings} from '../FaviconsContext'
 import TextButton from '../../../components/ui/buttons/TextButton'
+import {useConfig} from '../../Config/types'
+import {usePagesFavIcons, usePagesLoadings} from '../FaviconsContext'
 
 export default function Tabs() {
   const location = useLocation()
@@ -47,8 +46,9 @@ export default function Tabs() {
             {
               'bg-gray-200': isPathActive('/'),
               'bg-gray-100 hover:bg-gray-200': !isPathActive('/'),
-            }
-          )}>
+            },
+          )}
+        >
           <div>
             <HomeIcon className="w-5" />
           </div>
@@ -61,19 +61,18 @@ export default function Tabs() {
           return (
             <div
               key={index}
-              className={classNames(
-                'group flex items-center justify-start rounded',
-                {
-                  'bg-gray-200': active,
-                  'bg-gray-100': !active,
-                }
-              )}>
+              className={classNames('group flex items-center justify-start rounded', {
+                'bg-gray-200': active,
+                'bg-gray-100': !active,
+              })}
+            >
               {loading ? (
                 <div className="flex w-8 items-center justify-center p-2">
                   <TextButton
                     onClick={() => electronAPI.resetPage(index)}
                     style="light"
-                    className="flex w-5 animate-spin items-center justify-center">
+                    className="flex w-5 animate-spin items-center justify-center"
+                  >
                     <ArrowPathIcon className="w-5" />
                   </TextButton>
                 </div>
@@ -83,7 +82,8 @@ export default function Tabs() {
                   <TextButton
                     onClick={() => electronAPI.resetPage(index)}
                     style="light"
-                    className="hidden w-5 items-center justify-center group-hover:flex">
+                    className="hidden w-5 items-center justify-center group-hover:flex"
+                  >
                     <ArrowPathIcon className="w-5" />
                   </TextButton>
                 </div>
@@ -93,7 +93,8 @@ export default function Tabs() {
                 className={classNames('rounded-lg p-2 text-sm text-gray-600', {
                   '': active,
                   'hover:bg-gray-200': !active,
-                })}>
+                })}
+              >
                 <div className="flex-1 whitespace-nowrap">{tab.name}</div>
               </Link>
             </div>
@@ -108,8 +109,9 @@ export default function Tabs() {
         }}
         className={classNames(
           'm-1 flex items-center justify-center rounded p-2 text-sm text-gray-600',
-          'bg-gray-100 hover:bg-gray-200'
-        )}>
+          'bg-gray-100 hover:bg-gray-200',
+        )}
+      >
         <div>
           {config?.muteAudio ? (
             <SpeakerXMarkIcon className="w-4" />
@@ -125,8 +127,9 @@ export default function Tabs() {
           {
             'bg-gray-200': isPathActive('/config'),
             'bg-gray-100 hover:bg-gray-200': !isPathActive('/config'),
-          }
-        )}>
+          },
+        )}
+      >
         <div>
           <CogIcon className="w-5" />
         </div>

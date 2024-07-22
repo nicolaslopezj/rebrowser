@@ -4,14 +4,12 @@ import {RebrowserAction} from '../../types'
 export async function setLocalStorageItem(
   index: number,
   view: BrowserView,
-  action: RebrowserAction
+  action: RebrowserAction,
 ) {
   console.log(`Will setLocalStorageItem ${JSON.stringify(action)}`)
   const key = action.localStorageKey
   const escapedValue = JSON.stringify(action.localStorageValue)
-  const code = `window.localStorage.setItem(${JSON.stringify(
-    key
-  )}, ${escapedValue});
+  const code = `window.localStorage.setItem(${JSON.stringify(key)}, ${escapedValue});
   `
 
   console.log(`Executing code: ${code}`)

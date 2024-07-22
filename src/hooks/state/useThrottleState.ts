@@ -1,5 +1,5 @@
-import {useCallback, useEffect, useRef, useState} from 'react'
 import throttle from 'lodash/throttle'
+import {useCallback, useEffect, useRef, useState} from 'react'
 
 function useThrottleCallback(cb: Function, delay: number) {
   const options = {leading: true, trailing: true} // add custom lodash options
@@ -10,7 +10,7 @@ function useThrottleCallback(cb: Function, delay: number) {
   })
   return useCallback(
     throttle((...args) => cbRef.current(...args), delay, options),
-    [delay]
+    [delay],
   )
 }
 

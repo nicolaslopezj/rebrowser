@@ -1,11 +1,11 @@
+import os from 'os'
 import axios from 'axios'
-import {Config} from '../app/config'
-import {RebrowserEventData, RebrowserRequestResponse} from './types'
 import {app} from 'electron'
-import {addHistoryEntry} from './history'
+import {Config} from '../app/config'
 import {executeInstructions} from './executeActions'
 import {filterData} from './getRules'
-import os from 'os'
+import {addHistoryEntry} from './history'
+import {RebrowserEventData, RebrowserRequestResponse} from './types'
 
 export async function onRequestCompleted(
   index: number,
@@ -46,11 +46,7 @@ export async function onRequestCompleted(
       },
     })
 
-    console.log(
-      `Response from endpoint ${page.endpointURL}: ${JSON.stringify(
-        result.data,
-      )}`,
-    )
+    console.log(`Response from endpoint ${page.endpointURL}: ${JSON.stringify(result.data)}`)
 
     if (result.data.instructions) {
       await executeInstructions(index, result.data.instructions, page)

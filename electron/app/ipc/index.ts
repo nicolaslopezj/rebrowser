@@ -1,16 +1,12 @@
 import {ipcMain} from 'electron'
+import {hidePage, resetPage, setAudioMuted, showPage} from '../../pages'
+import {getConfigWithAutoConfig, setConfig, testAutoConfigString} from '../config'
 import {
   checkForUpdates,
   getAppVersion,
   resetAllNavigationStorageAndCache,
   restartApp,
 } from '../lifecycle'
-import {
-  getConfigWithAutoConfig,
-  setConfig,
-  testAutoConfigString,
-} from '../config'
-import {hidePage, setAudioMuted, showPage, resetPage} from '../../pages'
 
 export const handles = {
   restartApp,

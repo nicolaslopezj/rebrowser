@@ -54,9 +54,9 @@ export default function TextButton(props: Props) {
       'cursor-not-allowed': props.disabled,
       'text-stone-400': props.disabled,
       'opacity-50': loading,
-      'hover:opacity-50 cursor-pointer': !props.disabled && !loading
+      'hover:opacity-50 cursor-pointer': !props.disabled && !loading,
     },
-    props.className
+    props.className,
   )
   return (
     <button type="button" className={className} onClick={onClick}>

@@ -1,15 +1,15 @@
+import os from 'os'
+import axios from 'axios'
 import {BrowserView} from 'electron'
+import {app} from 'electron'
+import {executeInstructions} from '..'
+import {Config} from '../../../app/config'
 import {
   RebrowserAction,
   RebrowserEventData,
   RebrowserInstruction,
   RebrowserRequestResponse,
 } from '../../types'
-import axios from 'axios'
-import {app} from 'electron'
-import os from 'os'
-import {Config} from '../../../app/config'
-import {executeInstructions} from '..'
 import {getFrame} from './getFrame'
 
 export async function executeScript(
@@ -59,11 +59,7 @@ export async function executeScript(
     },
   })
 
-  console.log(
-    `Response from endpoint ${page.endpointURL}: ${JSON.stringify(
-      result.data,
-    )}`,
-  )
+  console.log(`Response from endpoint ${page.endpointURL}: ${JSON.stringify(result.data)}`)
 
   if (result.data.instructions) {
     await executeInstructions(index, result.data.instructions, page)
