@@ -1,9 +1,9 @@
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
 import {getHistory} from '../../history'
 import {RebrowserAction} from '../../types'
 import {getFrame} from '../executeScript/getFrame'
 
-export async function makeRequest(index: number, view: BrowserView, action: RebrowserAction) {
+export async function makeRequest(index: number, view: WebContentsView, action: RebrowserAction) {
   console.log(`Will make request ${JSON.stringify(action)}`)
   const headers = getHeaders(index, action) || {}
 

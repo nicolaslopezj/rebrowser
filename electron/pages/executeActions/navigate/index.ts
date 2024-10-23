@@ -1,7 +1,7 @@
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
 import {RebrowserAction} from '../../types'
 
-export async function navigate(index: number, view: BrowserView, action: RebrowserAction) {
+export async function navigate(index: number, view: WebContentsView, action: RebrowserAction) {
   console.log(`Will navigate ${JSON.stringify(action)}`)
   const url = action.url
 

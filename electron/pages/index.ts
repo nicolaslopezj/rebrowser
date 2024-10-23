@@ -1,4 +1,5 @@
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
+import isDev from 'electron-is-dev'
 import {type Config, getConfig} from '../app/config'
 import {mainWindow} from '../main'
 import {pollPendingInstructions} from './executeActions'
@@ -6,7 +7,9 @@ import {resetBrowserView} from './executeActions/reset'
 import {getPagesFormAutoConfig} from './getPagesFromAutoConfig'
 import {onRequestCompleted} from './send'
 
-export const views: BrowserView[] = []
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
+
+export const views: WebContentsView[] = []
 const config = getConfig()
 let pages = config.pages
 
@@ -14,13 +17,14 @@ const tabsHeight = 40 + 28
 export let currentTab = 0
 
 export function startPage(page: Config['pages'][0], index: number) {
-  const view = new BrowserView({
+  const view = new WebContentsView({
     webPreferences: {
       autoplayPolicy: 'no-user-gesture-required',
       nodeIntegration: false,
       contextIsolation: true,
       offscreen: false,
       webSecurity: false,
+      v8CacheOptions: 'none',
       allowRunningInsecureContent: true,
       partition: `persist:rebrowser-${page.partition ?? index}`,
     },
@@ -28,13 +32,17 @@ export function startPage(page: Config['pages'][0], index: number) {
   views[index] = view
 
   view.webContents.setBackgroundThrottling(false)
+  const sharedWorkers = view.webContents.getAllSharedWorkers()
+  console.log('shared workers', sharedWorkers)
 
   // mute audio
   if (getConfig().muteAudio) {
     view.webContents.setAudioMuted(true)
   }
 
-  // view.webContents.openDevTools();
+  if (isDev) {
+    view.webContents.openDevTools()
+  }
 
   let userAgent = view.webContents.getUserAgent()
   userAgent = userAgent.replace(/Electron\/[0-9\.]+\s/, '').replace(/rebrowser\/[0-9\.]+\s/, '')
@@ -170,6 +178,22 @@ export function startPage(page: Config['pages'][0], index: number) {
         callback({cancel: true})
       }
     })
+
+    view.webContents.mainFrame.framesInSubtree.forEach(frame => {
+      frame.executeJavaScript(`
+        let didExecute = false;
+        navigator.serviceWorker?.getRegistrations().then(registrations => {
+          for (const registration of registrations) {
+          console.log("unregistering worker")
+            didExecute = true;
+            registration.unregister()
+          }
+          if (didExecute) {
+            window.location.reload()
+          }
+        })
+      `)
+    })
   })
 
   view.webContents.on('did-stop-loading', () => {
@@ -189,7 +213,8 @@ export function startPage(page: Config['pages'][0], index: number) {
   })
 
   view.webContents.loadURL(page.startURL)
-  mainWindow.addBrowserView(view)
+
+  mainWindow.contentView.addChildView(view)
 
   setInterval(() => {
     pollPendingInstructions(index, page).catch(console.error)
@@ -212,7 +237,7 @@ export async function startPages() {
   }
 }
 
-export function setBounds(view: BrowserView) {
+export function setBounds(view: WebContentsView) {
   const {width, height} = mainWindow.getBounds()
   view.setBounds({x: 0, y: tabsHeight, width, height: height - tabsHeight})
 }

@@ -1,7 +1,7 @@
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
 import {RebrowserAction} from '../../types'
 
-export async function reload(index: number, view: BrowserView, action: RebrowserAction) {
+export async function reload(index: number, view: WebContentsView, action: RebrowserAction) {
   console.log(`Will reload ${JSON.stringify(action)}`)
   const code = `window.location.reload();`
 

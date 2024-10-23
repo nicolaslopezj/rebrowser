@@ -1,6 +1,6 @@
 import os from 'os'
 import axios from 'axios'
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
 import {app} from 'electron'
 import {executeInstructions} from '..'
 import {Config} from '../../../app/config'
@@ -15,7 +15,7 @@ import {getFrame} from './getFrame'
 export async function executeScript(
   index: number,
   page: Config['pages'][0],
-  view: BrowserView,
+  view: WebContentsView,
   action: RebrowserAction,
   instruction: RebrowserInstruction,
 ) {

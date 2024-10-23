@@ -1,9 +1,9 @@
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
 import {RebrowserAction} from '../../types'
 
 export async function setLocalStorageItem(
   index: number,
-  view: BrowserView,
+  view: WebContentsView,
   action: RebrowserAction,
 ) {
   console.log(`Will setLocalStorageItem ${JSON.stringify(action)}`)

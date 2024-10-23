@@ -1,11 +1,11 @@
-import {BrowserView} from 'electron'
+import {WebContentsView} from 'electron'
 import {Config} from '../../../app/config'
 import {RebrowserAction} from '../../types'
 import {getFrame} from '../executeScript/getFrame'
 
 export async function reset(
   index: number,
-  view: BrowserView,
+  view: WebContentsView,
   action: RebrowserAction,
   page: Config['pages'][0],
 ) {
@@ -14,13 +14,17 @@ export async function reset(
   await resetBrowserView(view, page, index)
 }
 
-export async function resetBrowserView(view: BrowserView, page: Config['pages'][0], index: number) {
+export async function resetBrowserView(
+  view: WebContentsView,
+  page: Config['pages'][0],
+  index: number,
+) {
   try {
     console.log('will reset view', page)
 
     try {
       const win = await getFrame(view)
-      win.executeJavaScript(`navigator.serviceWorker?.getRegistrations().then(registrations => {
+      await win.executeJavaScript(`navigator.serviceWorker?.getRegistrations().then(registrations => {
         for (const registration of registrations) {
           registration.unregister()
         }
@@ -29,13 +33,12 @@ export async function resetBrowserView(view: BrowserView, page: Config['pages'][
       console.log('error cleaning service workers', error)
     }
 
+    view.webContents.forcefullyCrashRenderer()
     await view.webContents.session.clearCache()
     await view.webContents.session.clearHostResolverCache()
 
-    await view.webContents.loadURL('about:blank')
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // delete page cache but not session
     await view.webContents.loadURL(page.startURL)
+    await view.webContents.reloadIgnoringCache()
   } catch (error) {
     console.error('Error reseting view', error)
   }

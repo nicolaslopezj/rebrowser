@@ -3,7 +3,7 @@
   "author": {
     "name": "Nicolas Lopez"
   },
-  "version": "2.1.4",
+  "version": "2.2.0",
   "private": true,
   "homepage": ".",
   "main": "./build/electron/main.js",
@@ -35,7 +35,7 @@
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:5149 && tsc -p electron -w\" \"wait-on http://127.0.0.1:5149 && tsc -p electron && electron .\"",
     "compile": "rm -rf ./dist && yarn build && tsc -p electron",
-    "release": "electron-builder --config .electron-builder.config.js --win --mac",
+    "release": "yarn compile && electron-builder --config .electron-builder.config.js --win --mac",
     "start": "PORT=5149 react-scripts start",
     "build-win": "electron-builder --config .electron-builder.config.js --win",
     "build": "react-scripts build",
@@ -43,22 +43,11 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
