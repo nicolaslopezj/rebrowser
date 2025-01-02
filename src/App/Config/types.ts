@@ -6,6 +6,7 @@ export interface Config {
   muteAudio?: boolean
   pages: {
     name: string
+    description?: string
     startURL: string
     endpointURL: string
     endpointAuthenticationToken: string

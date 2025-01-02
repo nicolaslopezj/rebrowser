@@ -42,6 +42,7 @@ export default function SelectATab() {
                 </div>
                 <div className="text-sm">{page.name}</div>
               </div>
+              <div className="text-sm text-gray-500">{page.description}</div>
               <div className="truncate text-sm text-gray-500">{titles[index]}</div>
             </Link>
           )
