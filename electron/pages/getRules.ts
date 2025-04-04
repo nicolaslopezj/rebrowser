@@ -23,6 +23,7 @@ export async function getPageRules(
         Authorization: `Bearer ${page.endpointAuthenticationToken}`,
       },
     })
+    console.log('Loaded rules', result.data.rules)
     cache.set(index, result.data.rules)
     return result.data.rules
   } catch (error) {

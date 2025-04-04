@@ -33,6 +33,7 @@ export interface RebrowserRule {
   urlMatch: string
   omit: boolean
   filterJSONPaths?: string[]
+  blockNavigation?: boolean
 }
 
 export interface RebrowserRulesRequestResponse {

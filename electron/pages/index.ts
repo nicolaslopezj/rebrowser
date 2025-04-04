@@ -5,6 +5,7 @@ import {mainWindow} from '../main'
 import {pollPendingInstructions} from './executeActions'
 import {resetBrowserView} from './executeActions/reset'
 import {getPagesFormAutoConfig} from './getPagesFromAutoConfig'
+import {getPageRules} from './getRules'
 import {onRequestCompleted} from './send'
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
@@ -16,7 +17,7 @@ let pages = config.pages
 const tabsHeight = 40 + 28
 export let currentTab = 0
 
-export function startPage(page: Config['pages'][0], index: number) {
+export async function startPage(page: Config['pages'][0], index: number) {
   const view = new WebContentsView({
     webPreferences: {
       autoplayPolicy: 'no-user-gesture-required',
@@ -166,11 +167,25 @@ export function startPage(page: Config['pages'][0], index: number) {
     })
   })
 
+  const rules = await getPageRules(page, index)
+
   view.webContents.on('dom-ready', () => {
     // block a connection to a domain
     const filter = {
       urls: ['*://*.arkoselabs.com/*'],
     }
+
+    // block navigation to migrate
+    view.webContents.on('will-navigate', (event, url) => {
+      for (const rule of rules) {
+        if (!rule.blockNavigation) continue
+        const regex = new RegExp(rule.urlMatch)
+        if (regex.test(url)) {
+          console.log('Blocking navigation to', url)
+          event.preventDefault()
+        }
+      }
+    })
 
     view.webContents.session.webRequest.onBeforeRequest(filter, (details, callback) => {
       if (details.url.includes('arkoselabs.com')) {
