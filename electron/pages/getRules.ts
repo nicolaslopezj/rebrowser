@@ -4,12 +4,17 @@ import dot from 'dot-object'
 import {Config} from '../app/config'
 import {RebrowserEventData, RebrowserRule, RebrowserRulesRequestResponse} from './types'
 
-const cache = new Map<number, RebrowserRule[]>()
+interface CachedRulesData {
+  rules: RebrowserRule[]
+  urlFilters: string[]
+}
+
+const cache = new Map<number, CachedRulesData>()
 
 export async function getPageRules(
   page: Config['pages'][0],
   index: number,
-): Promise<RebrowserRule[]> {
+): Promise<CachedRulesData> {
   const cached = cache.get(index)
   if (cached) {
     return cached
@@ -24,12 +29,18 @@ export async function getPageRules(
       },
     })
     console.log('Loaded rules', result.data.rules)
-    cache.set(index, result.data.rules)
-    return result.data.rules
-  } catch (error) {
-    cache.set(index, [])
+    console.log('Loaded urlFilters', result.data.urlFilters ?? [])
 
-    return []
+    const data: CachedRulesData = {
+      rules: result.data.rules,
+      urlFilters: result.data.urlFilters ?? [],
+    }
+    cache.set(index, data)
+    return data
+  } catch (error) {
+    const emptyData: CachedRulesData = {rules: [], urlFilters: []}
+    cache.set(index, emptyData)
+    return emptyData
   }
 }
 
@@ -51,7 +62,7 @@ export async function filterData(
   index: number,
   data: RebrowserEventData,
 ) {
-  const rules = await getPageRules(page, index)
+  const {rules} = await getPageRules(page, index)
   const bodyJSON = getJSON(data.body)
   if (!bodyJSON) return null // only json bodies are passed
 

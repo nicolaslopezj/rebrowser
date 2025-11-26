@@ -38,6 +38,7 @@ export interface RebrowserRule {
 
 export interface RebrowserRulesRequestResponse {
   rules: RebrowserRule[]
+  urlFilters: string[]
 }
 
 export interface RebrowserEventData {

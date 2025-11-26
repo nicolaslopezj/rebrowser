@@ -14,7 +14,7 @@ export const views: WebContentsView[] = []
 const config = getConfig()
 let pages = config.pages
 
-const tabsHeight = 40 + 28
+const tabsHeight = 40
 export let currentTab = 0
 
 export async function startPage(page: Config['pages'][0], index: number) {
@@ -45,8 +45,13 @@ export async function startPage(page: Config['pages'][0], index: number) {
     view.webContents.openDevTools()
   }
 
+  // Clean user agent to remove all Electron/automation signatures
   let userAgent = view.webContents.getUserAgent()
-  userAgent = userAgent.replace(/Electron\/[0-9\.]+\s/, '').replace(/rebrowser\/[0-9\.]+\s/, '')
+  userAgent = userAgent
+    .replace(/Electron\/[\d.]+\s?/gi, '')
+    .replace(/rebrowser\/[\d.]+\s?/gi, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
   view.webContents.setUserAgent(userAgent)
 
   hidePage(index)
@@ -59,6 +64,7 @@ export async function startPage(page: Config['pages'][0], index: number) {
   view.webContents.debugger.on('detach', (_event, reason) => {
     console.log('Debugger detached due to: ', reason)
   })
+
 
   const requestsMap = new Map<
     string,
@@ -167,15 +173,12 @@ export async function startPage(page: Config['pages'][0], index: number) {
     })
   })
 
-  const rules = await getPageRules(page, index)
+  const {rules, urlFilters} = await getPageRules(page, index)
+
+  console.log('Loaded rules and filters.')
 
   view.webContents.on('dom-ready', () => {
-    // block a connection to a domain
-    const filter = {
-      urls: ['*://*.arkoselabs.com/*'],
-    }
-
-    // block navigation to migrate
+    // block navigation to URLs matching rules with blockNavigation enabled
     view.webContents.on('will-navigate', (event, url) => {
       for (const rule of rules) {
         if (!rule.blockNavigation) continue
@@ -187,12 +190,15 @@ export async function startPage(page: Config['pages'][0], index: number) {
       }
     })
 
-    view.webContents.session.webRequest.onBeforeRequest(filter, (details, callback) => {
-      if (details.url.includes('arkoselabs.com')) {
-        console.log('Blocking request to arkoselabs.com', details)
+    // block connections to domains specified in urlFilters from /rules endpoint
+    if (urlFilters.length > 0) {
+      console.log('Blocking requests to', urlFilters)
+      const filter = {urls: urlFilters}
+      view.webContents.session.webRequest.onBeforeRequest(filter, (details, callback) => {
+        console.log('Blocking request to', details.url)
         callback({cancel: true})
-      }
-    })
+      })
+    }
 
     view.webContents.mainFrame.framesInSubtree.forEach(frame => {
       frame.executeJavaScript(`
@@ -253,7 +259,8 @@ export async function startPages() {
 }
 
 export function setBounds(view: WebContentsView) {
-  const {width, height} = mainWindow.getBounds()
+  // Use getContentBounds to get the actual content area (excludes window frame/title bar)
+  const {width, height} = mainWindow.getContentBounds()
   view.setBounds({x: 0, y: tabsHeight, width, height: height - tabsHeight})
 }
 

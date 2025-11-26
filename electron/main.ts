@@ -10,11 +10,17 @@ import './app/singleInstance'
 import {checkForUpdates} from './app/lifecycle'
 import {setupOnClose} from './app/onClose'
 
+// Stealth flags - must be set before app is ready
+app.commandLine.appendSwitch('disable-blink-features', 'AutomationControlled')
+app.commandLine.appendSwitch('disable-features', 'IsolateOrigins,site-per-process')
+app.commandLine.appendSwitch('disable-site-isolation-trials')
+
 export let mainWindow: BrowserWindow | null = null
 let powerSaveBlockerId = null
 
 function createWindow() {
   app.commandLine.appendSwitch('ignore-certificate-errors')
+
   app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
     // Verification logic.
     event.preventDefault()
